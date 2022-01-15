@@ -29,6 +29,7 @@ class MyLocation : Service() {
         val notification = Notification.Builder(this, CHANNELID)
             .setContentText("Service location is running")
             .setContentTitle("Service location enable")
+            .setSmallIcon(R.drawable.android)
 
         getLastLocation()
         startForeground(1002, notification.build())

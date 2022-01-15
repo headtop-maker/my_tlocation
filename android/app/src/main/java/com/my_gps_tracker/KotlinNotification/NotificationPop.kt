@@ -53,7 +53,10 @@ class NotificationPop:ReactContextBaseJavaModule{
                          .setTicker("hearty 356")
                          .setContentTitle("Header")
                          .setContentText("decription")
-                         .setContentInfo("info");
+                         .setContentInfo("info")
+                     .setSmallIcon(R.drawable.android)
+                 ;
+
                  notificationManager.notify(1234,notificationBuilder.build());
 
 

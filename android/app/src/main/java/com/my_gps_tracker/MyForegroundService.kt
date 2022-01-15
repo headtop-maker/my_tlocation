@@ -34,6 +34,7 @@ class MyForegroundService : Service() {
         val notification = Notification.Builder(this, CHANNELID)
             .setContentText("Service is running")
             .setContentTitle("Service enable")
+            .setSmallIcon(R.drawable.android)
 
         val action = intent.action
         if (action == "START"){
