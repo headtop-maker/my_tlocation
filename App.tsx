@@ -7,11 +7,20 @@ import {
   View,
   NativeModules,
 } from 'react-native';
-const {ToastKotlin} = NativeModules;
+const {ToastKotlin, Pop} = NativeModules;
 
 const App = () => {
   return (
     <SafeAreaView style={styles.container}>
+      <View>
+        <Button
+          title="kotlin POP"
+          onPress={() => {
+            Pop.trigger();
+          }}
+        />
+      </View>
+
       <View>
         <Button
           title="kotlin start Location"
