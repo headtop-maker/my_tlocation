@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "756321283920",
+    "firebase_url": "https://reactmap-333105-default-rtdb.firebaseio.com",
+    "project_id": "reactmap-333105",
+    "storage_bucket": "reactmap-333105.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:756321283920:android:cbfd515379b043268fc655",
+        "android_client_info": {
+          "package_name": "com.my_gps_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "756321283920-sukrnfr8ng2jbuk260djkh3h4p047scc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABGNbfU1bxYLZLYg7HV6KBLIe9Ahg_pOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "756321283920-sukrnfr8ng2jbuk260djkh3h4p047scc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:756321283920:android:c8e353b178a202998fc655",
+        "android_client_info": {
+          "package_name": "com.nativemodule2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "756321283920-sukrnfr8ng2jbuk260djkh3h4p047scc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABGNbfU1bxYLZLYg7HV6KBLIe9Ahg_pOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "756321283920-sukrnfr8ng2jbuk260djkh3h4p047scc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:756321283920:android:dc97e1107eb08c1c8fc655",
+        "android_client_info": {
+          "package_name": "com.react_map"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "756321283920-sukrnfr8ng2jbuk260djkh3h4p047scc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABGNbfU1bxYLZLYg7HV6KBLIe9Ahg_pOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "756321283920-sukrnfr8ng2jbuk260djkh3h4p047scc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
