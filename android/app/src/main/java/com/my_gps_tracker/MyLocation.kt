@@ -11,14 +11,25 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+
 class MyLocation : Service() {
 
-
+    private lateinit var database: DatabaseReference
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     @RequiresApi(api = Build.VERSION_CODES.O)
+    fun initializeDbRef() {
+        // [START initialize_database_ref]
+        database = Firebase.database.reference
+        // [END initialize_database_ref]
+    }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        initializeDbRef()
         val CHANNELID = "Foreground Service ID"
         val channel = NotificationChannel(
             CHANNELID,
@@ -31,7 +42,7 @@ class MyLocation : Service() {
             .setContentTitle("Service location enable")
             .setSmallIcon(R.drawable.android)
 
-        getLastLocation()
+        getLastLocation("location")///заменить на нормальное
         startForeground(1002, notification.build())
 
         return super.onStartCommand(intent, flags, startId)
@@ -49,7 +60,10 @@ class MyLocation : Service() {
         return null
     }
 
-    private fun getLastLocation() {
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getLastLocation(devId: String) {
+        initializeDbRef()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -71,14 +85,15 @@ class MyLocation : Service() {
                 for (location in locationResult.locations) {
                     if (location != null) {
                         //TODO: UI updates.
-                        Log.d("location", "${location.latitude},${location.longitude}")
-
+//                        Log.d("location", "${location.latitude},${location.longitude}")
+                        database.child("location").child("latitude").setValue(location.latitude)
+                        database.child("location").child("longitude").setValue(location.longitude)
                     }
                 }
             }
         }
-
         fusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper()!!);
-
     }
+
+
 }
