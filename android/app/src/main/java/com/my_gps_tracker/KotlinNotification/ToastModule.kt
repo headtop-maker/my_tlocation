@@ -10,6 +10,7 @@ import java.util.HashMap
 import android.content.Intent
 import android.app.Activity
 import android.os.Build
+import android.provider.Settings
 import com.google.android.gms.location.FusedLocationProviderClient
 
 
@@ -35,6 +36,37 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
     fun show(message:String,duration: Int){
         Toast.makeText(reactApplicationContext,message,duration).show()
     }
+
+
+    @ReactMethod
+    fun getDeviceID(){
+        var devId = Settings.Secure.getString(currentActivity?.contentResolver,
+            Settings.Secure.ANDROID_ID
+        );
+        Toast.makeText(reactApplicationContext,"Got id $devId",Toast.LENGTH_SHORT).show()
+    }
+
+    @ReactMethod
+    fun startForeGroundService(){
+        val intent = Intent(getReactApplicationContext(), MyForegroundService::class.java)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            intent.action = "START"
+            intent.putExtra("devId","location")
+            getReactApplicationContext()?.startForegroundService(intent)
+        };
+    }
+
+
+    @ReactMethod
+    fun stopForeGroundService(){
+        val intent = Intent(getReactApplicationContext(), MyForegroundService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            intent.action = "STOP"
+            getReactApplicationContext()?.stopService(intent)
+        };
+    }
+
 
     @ReactMethod
     fun startServiceLocation() {

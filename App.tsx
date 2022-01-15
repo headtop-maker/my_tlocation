@@ -29,6 +29,24 @@ const App = () => {
           }}
         />
       </View>
+
+      <View>
+        <Button
+          title="kotlin start foreground"
+          onPress={() => {
+            ToastKotlin.startForeGroundService();
+          }}
+        />
+      </View>
+
+      <View>
+        <Button
+          title="kotlin stop foreground"
+          onPress={() => {
+            ToastKotlin.stopForeGroundService();
+          }}
+        />
+      </View>
     </SafeAreaView>
   );
 };

@@ -34,7 +34,6 @@ class MyForegroundService : Service() {
         val notification = Notification.Builder(this, CHANNELID)
             .setContentText("Service is running")
             .setContentTitle("Service enable")
-            .setSmallIcon(R.drawable.android)
 
         val action = intent.action
         if (action == "START"){
@@ -77,7 +76,7 @@ class MyForegroundService : Service() {
     }
 
     fun onFirebaseData (devId:String){
-
+        initializeDbRef()
         database.child(devId).get().addOnSuccessListener {
             Log.i("firebase", "Got value ${it.value}")
         }.addOnFailureListener{

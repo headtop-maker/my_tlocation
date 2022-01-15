@@ -28,5 +28,6 @@
 
       </activity>
         <service android:name=".MyLocation"/>
+        <service android:name=".MyForegroundService"/>
     </application>
 </manifest>
