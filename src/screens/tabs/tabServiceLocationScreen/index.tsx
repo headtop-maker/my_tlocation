@@ -8,6 +8,7 @@ import {
   View,
   NativeModules,
 } from 'react-native';
+import Location from '../../../common/components/NativeComponents/Location';
 
 const {ToastKotlin} = NativeModules;
 
@@ -16,19 +17,7 @@ const TabServiceLocationScreen = () => {
     <SafeAreaView style={styles.container}>
       <Text>Tab Service Location Screen</Text>
       <View style={styles.body}>
-        <Text>start location</Text>
-        <Button
-          title="Start location service"
-          onPress={() => {
-            ToastKotlin.startServiceLocation();
-          }}
-        />
-        <Button
-          title="Stop location service"
-          onPress={() => {
-            ToastKotlin.stopServiceLocation();
-          }}
-        />
+        <Location />
       </View>
     </SafeAreaView>
   );
