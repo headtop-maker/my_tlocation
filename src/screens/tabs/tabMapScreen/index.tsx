@@ -8,26 +8,14 @@ import {
   View,
   NativeModules,
 } from 'react-native';
-
-const {ToastKotlin} = NativeModules;
+import Observation from '../../../common/components/NativeComponents/Observation';
 
 const TabMapScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <Text>MAP</Text>
-        <Button
-          title="Start foreground service"
-          onPress={() => {
-            ToastKotlin.startForeGroundService();
-          }}
-        />
-        <Button
-          title="Stop foreground service"
-          onPress={() => {
-            ToastKotlin.stopForeGroundService();
-          }}
-        />
+        <Observation />
       </View>
     </SafeAreaView>
   );
