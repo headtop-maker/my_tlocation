@@ -6,23 +6,20 @@ import TabServiceLocationScreen from '../tabs/tabServiceLocationScreen';
 import TAB_SCREENS from '../../constants/tabscreens';
 import {TouchableOpacity, View} from 'react-native';
 
+import Maps from '../../common/icons/svg/maps.svg';
+import Person from '../../common/icons/svg/person.svg';
+import Settings from '../../common/icons/svg/settings.svg';
 import SCREENS from '../../constants/screen';
-import {NavigationProp} from '@react-navigation/native';
-import {IRouteParamList} from '../../navigation/types';
-
-interface ITabProps {
-  navigation: NavigationProp<IRouteParamList>;
-}
 
 const Tab = createBottomTabNavigator();
-const TabScreen = ({navigation}: ITabProps) => {
+const TabScreen = ({navigation}) => {
   const SettingsHandler = () => {
     return (
       <View style={{marginRight: 20}}>
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate(SCREENS.SettingsScreen)
-          }></TouchableOpacity>
+          onPress={() => navigation.navigate(SCREENS.SettingsScreen)}>
+          <Settings width={30} height={30} />
+        </TouchableOpacity>
       </View>
     );
   };
@@ -51,6 +48,14 @@ const TabScreen = ({navigation}: ITabProps) => {
           headerRight: () => {
             return <SettingsHandler />;
           },
+          tabBarIcon: ({focused}) => (
+            <Person
+              width={30}
+              height={30}
+              strokeWidth={3}
+              stroke={focused ? '#ff4343' : '#0040ff'}
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -61,6 +66,14 @@ const TabScreen = ({navigation}: ITabProps) => {
           headerRight: () => {
             return <SettingsHandler />;
           },
+          tabBarIcon: ({focused}) => (
+            <Maps
+              width={30}
+              height={30}
+              strokeWidth={3}
+              stroke={focused ? '#ff4343' : '#0040ff'}
+            />
+          ),
         }}
       />
     </Tab.Navigator>

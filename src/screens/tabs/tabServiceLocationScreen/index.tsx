@@ -26,7 +26,7 @@ const TabServiceLocationScreen = () => {
         <Button
           title="Stop location service"
           onPress={() => {
-            ToastKotlin.startServiceLocation();
+            ToastKotlin.stopServiceLocation();
           }}
         />
       </View>
