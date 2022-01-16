@@ -68,8 +68,8 @@ class MyLocation : Service() {
                         ) != PackageManager.PERMISSION_GRANTED
         ) {}
         val mLocationRequest = LocationRequest.create()
-        mLocationRequest.interval = 6000
-        mLocationRequest.fastestInterval = 5000
+        mLocationRequest.interval = 3000
+        mLocationRequest.fastestInterval = 2000
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
         val mLocationCallback: LocationCallback =
