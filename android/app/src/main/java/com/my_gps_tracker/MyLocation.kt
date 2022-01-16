@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.IBinder
 import android.os.Looper
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
@@ -76,9 +77,7 @@ class MyLocation : Service() {
                     override fun onLocationResult(locationResult: LocationResult) {
                         for (location in locationResult.locations) {
                             if (location != null) {
-                                // TODO: UI updates.
-                                //                        Log.d("location",
-                                // "${location.latitude},${location.longitude}")
+                                Log.d("location", "${location.latitude},${location.longitude}")
                                 database.child("location")
                                         .child("latitude")
                                         .setValue(location.latitude)
