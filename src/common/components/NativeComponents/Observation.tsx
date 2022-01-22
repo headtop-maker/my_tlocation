@@ -11,11 +11,11 @@ const Observation = (props: ObservationProps) => {
 
   const handleObservation = () => {
     if (!check) {
-      setTitle('Включить наблюдение');
+      setTitle('Выключить наблюдение');
       ToastKotlin.startForeGroundService();
       setCheck(!check);
     } else {
-      setTitle('Выключить наблюдение');
+      setTitle('Включить наблюдение');
       ToastKotlin.stopForeGroundService();
       setCheck(!check);
     }
