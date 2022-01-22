@@ -8,14 +8,26 @@ import {
   View,
   NativeModules,
 } from 'react-native';
+import Gmaps from '../../../common/components/Gmaps';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import Observation from '../../../common/components/NativeComponents/Observation';
+import GetFromDataBase from '../../../common/components/NativeComponents/GetFromDataBase';
 
 const TabMapScreen = () => {
+  const initialRegion = {
+    latitude: 35.6762,
+    longitude: 139.6503,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Text>MAP</Text>
-        <Observation />
+        <View style={styles.controlItems}>
+          <GetFromDataBase />
+          <Observation />
+        </View>
+        <Gmaps />
       </View>
     </SafeAreaView>
   );
@@ -24,12 +36,12 @@ const TabMapScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
   },
-  map: {
-    width: '100%',
-    height: '95%',
+  controlItems: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });
 

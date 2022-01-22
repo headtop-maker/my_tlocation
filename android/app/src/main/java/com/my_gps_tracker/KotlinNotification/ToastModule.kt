@@ -6,17 +6,23 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 
 
-import java.util.HashMap
 import android.content.Intent
 import android.app.Activity
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
+import com.facebook.react.bridge.Callback
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import java.util.*
 
 
 class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaModule(reactContext){
     var activity: Activity? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var database: DatabaseReference
     private val DURATION_SHORT_KEY = "SHORT"
     private val DURATION_LONG_KEY = "LONG"
 
@@ -32,11 +38,29 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
         return constants
     }
 
+    fun initializeDbRef() {
+        // [START initialize_database_ref]
+        database = Firebase.database.reference
+        // [END initialize_database_ref]
+    }
+
     @ReactMethod
     fun show(message:String,duration: Int){
         Toast.makeText(reactApplicationContext,message,duration).show()
     }
 
+    @ReactMethod
+    fun getFromDataBaseOnce(successCallback: Callback){
+        initializeDbRef()
+        database.child("location").get().addOnSuccessListener {
+            Log.i("firebase", "Got value ${it.value}")
+            successCallback.invoke(it.value.toString());
+//            Toast.makeText(reactApplicationContext,"Got value ${it.value}",Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener{
+            Log.e("firebase", "Error getting data", it)
+            Toast.makeText(reactApplicationContext,"Ошибка получения",Toast.LENGTH_SHORT).show()
+        }
+    }
 
     @ReactMethod
     fun getDeviceID(){
