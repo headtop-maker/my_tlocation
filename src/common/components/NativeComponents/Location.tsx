@@ -12,11 +12,11 @@ const Location = (props: LocationProps) => {
 
   const handleTracking = () => {
     if (!check) {
-      setTitle('Включить трэкинг');
+      setTitle('Выключить трэкинг');
       ToastKotlin.startServiceLocation();
       setCheck(!check);
     } else {
-      setTitle('Выключить трэкинг');
+      setTitle('Включить трэкинг');
       ToastKotlin.stopServiceLocation();
       setCheck(!check);
     }
