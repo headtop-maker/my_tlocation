@@ -17,6 +17,12 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.util.*
+import com.facebook.react.bridge.WritableNativeMap
+
+import com.facebook.react.bridge.WritableMap
+
+
+
 
 
 class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaModule(reactContext){
@@ -51,16 +57,30 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
 
     @ReactMethod
     fun getFromDataBaseOnce(successCallback: Callback){
+        val resultData: WritableMap = WritableNativeMap()
+
         initializeDbRef()
-        database.child("location").get().addOnSuccessListener {
+
+        database.child("location").child("latitude").get().addOnSuccessListener {
             Log.i("firebase", "Got value ${it.value}")
-            successCallback.invoke(it.value.toString());
-//            Toast.makeText(reactApplicationContext,"Got value ${it.value}",Toast.LENGTH_SHORT).show()
+            resultData.putString("latitude", "${it.value}")
         }.addOnFailureListener{
             Log.e("firebase", "Error getting data", it)
             Toast.makeText(reactApplicationContext,"Ошибка получения",Toast.LENGTH_SHORT).show()
         }
+        database.child("location").child("longitude").get().addOnSuccessListener {
+            Log.i("firebase", "Got value ${it.value}")
+            resultData.putString("longitude", "${it.value}")
+            successCallback.invoke(resultData)
+        }.addOnFailureListener{
+            Log.e("firebase", "Error getting data", it)
+            Toast.makeText(reactApplicationContext,"Ошибка получения",Toast.LENGTH_SHORT).show()
+        }
+
+
     }
+
+    //           Toast.makeText(reactApplicationContext,"Got value ${it.value}",Toast.LENGTH_SHORT).show()
 
     @ReactMethod
     fun getDeviceID(){
