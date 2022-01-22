@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   NativeModules,
 } from 'react-native';
+import Gmaps from '../../common/components/Gmaps';
 import SCREENS from '../../constants/screen';
 import {IRouteParamList} from '../../navigation/types';
 
