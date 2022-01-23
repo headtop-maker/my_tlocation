@@ -83,11 +83,11 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
     //           Toast.makeText(reactApplicationContext,"Got value ${it.value}",Toast.LENGTH_SHORT).show()
 
     @ReactMethod
-    fun getDeviceID(){
+    fun getDeviceID(successCallback: Callback) {
         var devId = Settings.Secure.getString(currentActivity?.contentResolver,
             Settings.Secure.ANDROID_ID
-        );
-        Toast.makeText(reactApplicationContext,"Got id $devId",Toast.LENGTH_SHORT).show()
+        )
+        successCallback.invoke(devId)
     }
 
     @ReactMethod
@@ -113,9 +113,10 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
 
 
     @ReactMethod
-    fun startServiceLocation() {
+    fun startServiceLocation(deviceID: String) {
         val intent = Intent(currentActivity, MyLocation::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            intent.putExtra("devId",deviceID)
             reactApplicationContext?.startForegroundService(intent)
         };
 
