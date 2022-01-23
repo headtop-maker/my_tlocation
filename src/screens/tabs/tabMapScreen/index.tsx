@@ -13,8 +13,16 @@ import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import Observation from '../../../common/components/NativeComponents/Observation';
 import GetFromDataBase from '../../../common/components/NativeComponents/GetFromDataBase';
 import {useState} from 'react';
+import {NavigationProp} from '@react-navigation/native';
+import {IRouteParamList} from '../../../navigation/types';
+import SCREENS from '../../../constants/screen';
+import CustomButton from '../../../common/components/Buttons/CustomButton';
 
-const TabMapScreen = () => {
+interface IProps {
+  navigation: NavigationProp<IRouteParamList>;
+}
+
+const TabMapScreen = ({navigation}: IProps) => {
   const [rNdata, setRnData] = useState<{latitude: string; longitude: string}>({
     latitude: '0.000',
     longitude: '0.000',
@@ -23,6 +31,11 @@ const TabMapScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
+        <CustomButton
+          title={'сканировать qr'}
+          onPress={() => navigation.navigate(SCREENS.QrCodeScanner)}
+        />
+
         <View style={styles.controlItems}>
           <GetFromDataBase setRnData={setRnData} />
           <Observation />

@@ -4,4 +4,5 @@ export type IRouteParamList = {
   [SCREENS.TabScreen]: undefined;
   [SCREENS.MainScreen]: undefined;
   [SCREENS.SettingsScreen]: undefined;
+  [SCREENS.QrCodeScanner]: undefined;
 };
