@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import Start from '../../icons/svg/start.svg';
 import Pause from '../../icons/svg/pause.svg';
+import {useSelector} from 'react-redux';
+import {getRemoteDeviceId} from '../../../store/settings/selector';
 const {ToastKotlin} = NativeModules;
 
 interface IGetFromDataBaseProps {
@@ -19,19 +21,20 @@ const GetFromDataBase = (props: IGetFromDataBaseProps) => {
   const [seconds, setSeconds] = useState(0);
   const [startService, setStartService] = useState<boolean>(false);
   const [deviceId, setDeviceId] = useState<String>('');
+  const remoteDeviceId = useSelector(getRemoteDeviceId);
 
   useEffect(() => {
     return setStartService(false);
   }, []);
 
   useEffect(() => {
-    if (startService) {
+    if (startService && remoteDeviceId) {
       setTimeout(setSeconds, 1000, seconds + 1);
-      ToastKotlin.getFromDataBaseOnce((data: any) => {
+      ToastKotlin.getFromDataBaseOnce(remoteDeviceId, (data: any) => {
         props.setRnData(data);
       });
     }
-  }, [startService, seconds]);
+  }, [startService, seconds, remoteDeviceId]);
 
   return (
     <View style={styles.container}>

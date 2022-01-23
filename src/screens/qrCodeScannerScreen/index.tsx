@@ -1,5 +1,5 @@
 import {NavigationProp} from '@react-navigation/native';
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -7,18 +7,40 @@ import {
   AppRegistry,
   TouchableOpacity,
   Linking,
+  NativeModules,
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import {useDispatch, useSelector} from 'react-redux';
 import {IRouteParamList} from '../../navigation/types';
+import {setRemoteDeviceIdAction} from '../../store/settings/action';
+import {getRemoteDeviceId} from '../../store/settings/selector';
+
+const {ToastKotlin} = NativeModules;
 
 interface IProps {
   navigation: NavigationProp<IRouteParamList>;
 }
 
 const QrCodeScannerScreen = ({navigation}: IProps) => {
+  const [reactivate, setReactivate] = useState(false);
+  const [headerText, setHeaderText] = useState('');
+
+  const dispatch = useDispatch();
   let scanner = useRef(null);
+
   const onSuccess = e => {
+    setReactivate(false);
+    ToastKotlin.getFromDataBaseOnce(e.data, (data: any) => {
+      console.log(data);
+      if (!data.latitude && !data.longitude) {
+        setHeaderText('Данных по этому устройству нет');
+      } else {
+        dispatch(setRemoteDeviceIdAction(e.data));
+        navigation.goBack();
+      }
+    });
+
     console.log(e.data);
   };
 
@@ -28,16 +50,17 @@ const QrCodeScannerScreen = ({navigation}: IProps) => {
       ref={scanner}
       showMarker={true}
       vibrate={true}
-      reactivate={true}
+      reactivate={reactivate}
       // flashMode={RNCamera.Constants.FlashMode.torch}
       topContent={
         <Text style={styles.centerText}>
-          Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text>{' '}
-          on your computer and scan the QR code.
+          <Text style={styles.textBold}>{headerText}</Text>{' '}
         </Text>
       }
       bottomContent={
-        <TouchableOpacity style={styles.buttonTouchable}>
+        <TouchableOpacity
+          style={styles.buttonTouchable}
+          onPress={() => setReactivate(true)}>
           <Text style={styles.buttonText}>Сканировать</Text>
         </TouchableOpacity>
       }
