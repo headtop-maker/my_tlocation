@@ -56,19 +56,19 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
     }
 
     @ReactMethod
-    fun getFromDataBaseOnce(successCallback: Callback){
+    fun getFromDataBaseOnce(remoteDevId:String,successCallback: Callback){
         val resultData: WritableMap = WritableNativeMap()
 
         initializeDbRef()
 
-        database.child("location").child("latitude").get().addOnSuccessListener {
+        database.child(remoteDevId).child("latitude").get().addOnSuccessListener {
             Log.i("firebase", "Got value ${it.value}")
             resultData.putString("latitude", "${it.value}")
         }.addOnFailureListener{
             Log.e("firebase", "Error getting data", it)
             Toast.makeText(reactApplicationContext,"Ошибка получения",Toast.LENGTH_SHORT).show()
         }
-        database.child("location").child("longitude").get().addOnSuccessListener {
+        database.child(remoteDevId).child("longitude").get().addOnSuccessListener {
             Log.i("firebase", "Got value ${it.value}")
             resultData.putString("longitude", "${it.value}")
             successCallback.invoke(resultData)

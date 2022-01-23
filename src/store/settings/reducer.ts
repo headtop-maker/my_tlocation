@@ -6,6 +6,7 @@ const initialState: ISettings = {
   settingsForm: {
     sendingTime: 1500,
     deviceID: '',
+    remotedeviceID: '',
   },
 };
 
@@ -24,6 +25,14 @@ const settingsFormReducer = (state = initialState, action: AnyAction) => {
         ...state,
         settingsForm: {
           deviceID: action.payload,
+        },
+      };
+
+    case ActionType.setRemoteDeviceId:
+      return {
+        ...state,
+        settingsForm: {
+          remotedeviceID: action.payload,
         },
       };
 

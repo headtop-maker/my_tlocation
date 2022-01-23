@@ -5,3 +5,6 @@ export const getChangeTime = (state: TState) =>
 
 export const getGetDeviceId = (state: TState) =>
   state.settingFormData.settingsForm.deviceID;
+
+export const getRemoteDeviceId = (state: TState) =>
+  state.settingFormData.settingsForm.remotedeviceID;
