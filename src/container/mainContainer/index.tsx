@@ -6,6 +6,7 @@ import MainScreen from '../../screens/mainScreen';
 import TabScreen from '../../screens/tabScreen';
 import SCREENS from '../../constants/screen';
 import SettingsScreen from '../../screens/settingsScreen';
+import QrCodeScannerScreen from '../../screens/qrCodeScannerScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,10 @@ const MainContainer = () => {
         <Stack.Screen
           name={SCREENS.SettingsScreen}
           component={SettingsScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.QrCodeScanner}
+          component={QrCodeScannerScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
