@@ -39,7 +39,7 @@ class MyLocation : Service() {
                         .setContentTitle("Service location enable")
                         .setSmallIcon(R.drawable.android)
 
-        getLastLocation("location") // /заменить на нормальное
+            getLastLocation(intent?.getStringExtra("devId").toString())
         startForeground(1002, notification.build())
 
         return super.onStartCommand(intent, flags, startId)
@@ -78,10 +78,10 @@ class MyLocation : Service() {
                         for (location in locationResult.locations) {
                             if (location != null) {
                                 Log.d("location", "${location.latitude},${location.longitude}")
-                                database.child("location")
+                                database.child(devId)
                                         .child("latitude")
                                         .setValue(location.latitude)
-                                database.child("location")
+                                database.child(devId)
                                         .child("longitude")
                                         .setValue(location.longitude)
                             }
