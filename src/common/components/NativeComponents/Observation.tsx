@@ -13,15 +13,15 @@ const Observation: FC<IObservationProps> = ({dataForTrack}) => {
 
   const handleObservation = () => {
     console.log(dataForTrack);
-    // if (!check) {
-    //   setTitle('Выключить наблюдение');
-    //   ToastKotlin.startForeGroundService();
-    //   setCheck(!check);
-    // } else {
-    //   setTitle('Включить наблюдение');
-    //   ToastKotlin.stopForeGroundService();
-    //   setCheck(!check);
-    // }
+    if (!check) {
+      setTitle('Выключить наблюдение');
+      ToastKotlin.startForeGroundService();
+      setCheck(!check);
+    } else {
+      setTitle('Включить наблюдение');
+      ToastKotlin.stopForeGroundService();
+      setCheck(!check);
+    }
   };
 
   return (
