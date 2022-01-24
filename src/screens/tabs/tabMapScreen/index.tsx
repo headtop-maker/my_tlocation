@@ -25,6 +25,7 @@ interface IProps {
 }
 
 const TabMapScreen = ({navigation}: IProps) => {
+  const [getData, setGetData] = useState(false);
   const [rNdata, setRnData] = useState<{latitude: string; longitude: string}>({
     latitude: '0.000',
     longitude: '0.000',
@@ -33,24 +34,22 @@ const TabMapScreen = ({navigation}: IProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        {!remoteDeviceId ? (
-          <CustomButton
-            title={'сканировать qr'}
-            onPress={() => navigation.navigate(SCREENS.QrCodeScanner)}
-          />
-        ) : (
-          <>
-            <View style={styles.controlItems}>
-              <GetFromDataBase setRnData={setRnData} />
-              <Observation />
-            </View>
-            <View>
-              <Gmaps latitude={rNdata.latitude} longitude={rNdata.longitude} />
-            </View>
-          </>
-        )}
-      </View>
+      {!remoteDeviceId ? (
+        <CustomButton
+          title={'сканировать qr'}
+          onPress={() => navigation.navigate(SCREENS.QrCodeScanner)}
+        />
+      ) : (
+        <>
+          <View style={styles.controlItems}>
+            <GetFromDataBase setRnData={setRnData} setGetData={setGetData} />
+            {getData && <Observation dataForTrack={rNdata} />}
+          </View>
+          <View>
+            <Gmaps latitude={rNdata.latitude} longitude={rNdata.longitude} />
+          </View>
+        </>
+      )}
     </SafeAreaView>
   );
 };
@@ -61,6 +60,7 @@ const styles = StyleSheet.create({
   },
   controlItems: {
     alignItems: 'center',
+    alignContent: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',
   },

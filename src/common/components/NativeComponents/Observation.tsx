@@ -1,24 +1,27 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import {Text, View, StyleSheet, NativeModules} from 'react-native';
 import CustomButton from '../Buttons/CustomButton';
 
 const {ToastKotlin} = NativeModules;
-interface ObservationProps {}
+interface IObservationProps {
+  dataForTrack: {latitude: string; longitude: string};
+}
 
-const Observation = (props: ObservationProps) => {
+const Observation: FC<IObservationProps> = ({dataForTrack}) => {
   const [title, setTitle] = useState('Включить наблюдение');
   const [check, setCheck] = useState(false);
 
   const handleObservation = () => {
-    if (!check) {
-      setTitle('Выключить наблюдение');
-      ToastKotlin.startForeGroundService();
-      setCheck(!check);
-    } else {
-      setTitle('Включить наблюдение');
-      ToastKotlin.stopForeGroundService();
-      setCheck(!check);
-    }
+    console.log(dataForTrack);
+    // if (!check) {
+    //   setTitle('Выключить наблюдение');
+    //   ToastKotlin.startForeGroundService();
+    //   setCheck(!check);
+    // } else {
+    //   setTitle('Включить наблюдение');
+    //   ToastKotlin.stopForeGroundService();
+    //   setCheck(!check);
+    // }
   };
 
   return (
