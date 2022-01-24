@@ -3,10 +3,10 @@ import {ActionType} from './action';
 import {AnyAction} from 'redux';
 
 const initialState: ISettings = {
+  remotedeviceID: '',
+  deviceID: '',
   settingsForm: {
     sendingTime: 1500,
-    deviceID: '',
-    remotedeviceID: '',
   },
 };
 
@@ -23,17 +23,13 @@ const settingsFormReducer = (state = initialState, action: AnyAction) => {
     case ActionType.setDeviceId:
       return {
         ...state,
-        settingsForm: {
-          deviceID: action.payload,
-        },
+        deviceID: action.payload,
       };
 
     case ActionType.setRemoteDeviceId:
       return {
         ...state,
-        settingsForm: {
-          remotedeviceID: action.payload,
-        },
+        remotedeviceID: action.payload,
       };
 
     default:

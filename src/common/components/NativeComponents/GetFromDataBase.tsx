@@ -9,18 +9,20 @@ import {
 } from 'react-native';
 import Start from '../../icons/svg/start.svg';
 import Pause from '../../icons/svg/pause.svg';
+import Delete from '../../icons/svg/delete.svg';
 import {useSelector} from 'react-redux';
 import {getRemoteDeviceId} from '../../../store/settings/selector';
 const {ToastKotlin} = NativeModules;
 
 interface IGetFromDataBaseProps {
+  setGetData: (data: boolean) => void;
   setRnData: (data: {latitude: string; longitude: string}) => void;
 }
 
 const GetFromDataBase = (props: IGetFromDataBaseProps) => {
   const [seconds, setSeconds] = useState(0);
   const [startService, setStartService] = useState<boolean>(false);
-  const [deviceId, setDeviceId] = useState<String>('');
+
   const remoteDeviceId = useSelector(getRemoteDeviceId);
 
   useEffect(() => {
@@ -38,7 +40,11 @@ const GetFromDataBase = (props: IGetFromDataBaseProps) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => setStartService(!startService)}>
+      <TouchableOpacity
+        onPress={() => {
+          setStartService(!startService);
+          props.setGetData(!startService);
+        }}>
         {startService ? (
           <Pause width={40} height={40} strokeWidth={3} stroke={'#000000'} />
         ) : (
@@ -52,5 +58,7 @@ const GetFromDataBase = (props: IGetFromDataBaseProps) => {
 export default GetFromDataBase;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flexDirection: 'row',
+  },
 });
