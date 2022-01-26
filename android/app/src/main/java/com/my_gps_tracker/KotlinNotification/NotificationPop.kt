@@ -15,7 +15,7 @@ class NotificationPop : ReactContextBaseJavaModule {
     lateinit var notificationManager: NotificationManager
     lateinit var notificationChannel: NotificationChannel
     lateinit var builder: Notification.Builder
-    val channelId: String = "bolt-id"
+    val channelId: String = "my_pop"
     lateinit var myContext: ReactApplicationContext
 
     constructor(context: ReactApplicationContext) : super(context) {

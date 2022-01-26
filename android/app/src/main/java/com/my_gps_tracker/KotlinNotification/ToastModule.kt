@@ -61,26 +61,19 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
 
         initializeDbRef()
 
-        database.child(remoteDevId).child("latitude").get().addOnSuccessListener {
-            Log.i("firebase", "Got value ${it.value}")
-            resultData.putString("latitude", "${it.value}")
-        }.addOnFailureListener{
-            Log.e("firebase", "Error getting data", it)
-            Toast.makeText(reactApplicationContext,"Ошибка получения",Toast.LENGTH_SHORT).show()
-        }
-        database.child(remoteDevId).child("longitude").get().addOnSuccessListener {
-            Log.i("firebase", "Got value ${it.value}")
-            resultData.putString("longitude", "${it.value}")
+        database.child(remoteDevId).get().addOnSuccessListener {
+            var latitude = it.child("latitude").value
+            var longitude= it.child("longitude").value
+            resultData.putString("latitude", "$latitude")
+            resultData.putString("longitude", "$longitude")
             successCallback.invoke(resultData)
         }.addOnFailureListener{
             Log.e("firebase", "Error getting data", it)
             Toast.makeText(reactApplicationContext,"Ошибка получения",Toast.LENGTH_SHORT).show()
         }
 
-
     }
 
-    //           Toast.makeText(reactApplicationContext,"Got value ${it.value}",Toast.LENGTH_SHORT).show()
 
     @ReactMethod
     fun getDeviceID(successCallback: Callback) {
@@ -91,12 +84,14 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
     }
 
     @ReactMethod
-    fun startForeGroundService(){
+    fun startForeGroundService(deviceID:String,deviceLatitude:String,deviceLongitude:String){
         val intent = Intent(getReactApplicationContext(), MyForegroundService::class.java)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             intent.action = "START"
-            intent.putExtra("devId","location")
+            intent.putExtra("devId",deviceID)
+            intent.putExtra("deviceLatitude",deviceLatitude)
+            intent.putExtra("deviceLongitude",deviceLongitude)
             getReactApplicationContext()?.startForegroundService(intent)
         };
     }
