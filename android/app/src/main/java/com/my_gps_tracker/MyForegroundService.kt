@@ -6,11 +6,13 @@ import android.content.Intent
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
+import android.graphics.Color
 
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -18,6 +20,10 @@ import com.google.firebase.ktx.Firebase
 class MyForegroundService : Service() {
     var param:Boolean = true
     private lateinit var database: DatabaseReference
+    lateinit var notificationManager: NotificationManager
+    lateinit var notificationChannel: NotificationChannel
+    lateinit var builder: Notification.Builder
+    val channelId: String = "show_info"
 
     @RequiresApi(api = Build.VERSION_CODES.O)
 
@@ -44,7 +50,10 @@ class MyForegroundService : Service() {
         Thread {
             while (param) {
                 Log.d("FService", "Service Foreground run__ ${intent.getStringExtra("devId")}")
-                onFirebaseData(intent.getStringExtra("devId").toString())
+                onFirebaseData(intent.getStringExtra("devId").toString(),
+                 intent.getStringExtra("deviceLatitude").toString(),
+                    intent.getStringExtra("deviceLongitude").toString()
+                )
                     try {
                         Thread.sleep(2000)
                     } catch (e: InterruptedException) {
@@ -76,13 +85,63 @@ class MyForegroundService : Service() {
         // [END initialize_database_ref]
     }
 
-    fun onFirebaseData (devId:String){
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onFirebaseData (devId:String,devLatitude: String,devLongitude: String){
         initializeDbRef()
         database.child(devId).get().addOnSuccessListener {
-            Log.i("firebase", "Got value ${it.value}")
+            if (it.exists()){
+                var latitude = it.child("latitude").value.toString()
+                var longitude= it.child("longitude").value.toString()
+                Log.i("firebase", "Got value $latitude , $longitude")
+
+                if(latitude != devLatitude ||longitude != devLongitude){
+                    showCurrentInfo("Позиция изменилась","текущее положение $latitude , $longitude")
+                }
+
+            }
         }.addOnFailureListener{
             Log.e("firebase", "Error getting data", it)
         }
     }
+
+   @RequiresApi(Build.VERSION_CODES.O)
+   fun showCurrentInfo(header: String, text: String) {
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+           val notificationChannel =
+               NotificationChannel(
+                   channelId,
+                   "My notifications",
+                   NotificationManager.IMPORTANCE_HIGH
+               )
+           notificationChannel.enableLights(true)
+           notificationChannel.setDescription("Channel escription")
+           notificationChannel.setLightColor(Color.RED)
+           notificationChannel.enableVibration(true)
+
+           notificationManager = this.getSystemService(NotificationManager::class.java)
+           notificationManager.createNotificationChannel(notificationChannel)
+
+
+               val notificationBuilder: NotificationCompat.Builder =
+                   NotificationCompat.Builder(this, channelId)
+
+               notificationBuilder
+                   .setAutoCancel(true)
+                   .setWhen(System.currentTimeMillis())
+                   .setTicker("hearty 356")
+                   .setContentTitle(header)
+                   .setContentText(text)
+                   .setContentInfo("info")
+                   .setSmallIcon(R.drawable.android)
+
+               notificationManager.notify(4567, notificationBuilder.build())
+
+       } else {
+           TODO("VERSION.SDK_INT < O")
+       }
+   }
+
+
+
 
 }

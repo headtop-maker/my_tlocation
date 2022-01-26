@@ -23,14 +23,7 @@ interface IProps {
   navigation: NavigationProp<IRouteParamList>;
 }
 
-const {ShortMethods} = NativeModules;
 const MainScreen = ({navigation}: IProps) => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setDeviceIdAction(''));
-    dispatch(setRemoteDeviceIdAction(''));
-  }, []);
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={styles.container}>
