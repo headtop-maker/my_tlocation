@@ -9,7 +9,9 @@ import {TouchableOpacity, View} from 'react-native';
 import Maps from '../../common/icons/svg/maps.svg';
 import Person from '../../common/icons/svg/person.svg';
 import Settings from '../../common/icons/svg/settings.svg';
+import Camera from '../../common/icons/svg/camera.svg';
 import SCREENS from '../../constants/screen';
+import QrCodeScannerScreen from '../qrCodeScannerScreen';
 
 const Tab = createBottomTabNavigator();
 const TabScreen = ({navigation}) => {
@@ -58,6 +60,26 @@ const TabScreen = ({navigation}) => {
           ),
         }}
       />
+
+      <Tab.Screen
+        name={TAB_SCREENS.TabCameraScreen}
+        component={QrCodeScannerScreen}
+        options={{
+          title: 'Сканировать ',
+          headerRight: () => {
+            return <SettingsHandler />;
+          },
+          tabBarIcon: ({focused}) => (
+            <Camera
+              width={40}
+              height={40}
+              strokeWidth={10}
+              stroke={focused ? '#ff4343' : '#0040ff'}
+            />
+          ),
+        }}
+      />
+
       <Tab.Screen
         name={TAB_SCREENS.TabServiceLocationScreen}
         component={TabServiceLocationScreen}
