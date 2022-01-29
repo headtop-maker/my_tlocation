@@ -9,10 +9,9 @@ import {
   NativeModules,
 } from 'react-native';
 import Gmaps from '../../../common/components/Gmaps';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import Observation from '../../../common/components/NativeComponents/Observation';
 import GetFromDataBase from '../../../common/components/NativeComponents/GetFromDataBase';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {NavigationProp} from '@react-navigation/native';
 import {IRouteParamList} from '../../../navigation/types';
 import SCREENS from '../../../constants/screen';
@@ -23,14 +22,23 @@ import {getRemoteDeviceId} from '../../../store/settings/selector';
 interface IProps {
   navigation: NavigationProp<IRouteParamList>;
 }
+const {ToastKotlin} = NativeModules;
 
 const TabMapScreen = ({navigation}: IProps) => {
   const [getData, setGetData] = useState(false);
+  const [checkService, setCheckService] = useState<boolean>(false);
   const [rNdata, setRnData] = useState<{latitude: string; longitude: string}>({
-    latitude: '0.000',
-    longitude: '0.000',
+    latitude: '',
+    longitude: '',
   });
   const remoteDeviceId = useSelector(getRemoteDeviceId);
+
+  useEffect(() => {
+    ToastKotlin.isServiceRunning((checkService: boolean) => {
+      console.log(checkService);
+      setCheckService(checkService);
+    });
+  }, [checkService]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -43,10 +51,14 @@ const TabMapScreen = ({navigation}: IProps) => {
         <>
           <View style={styles.controlItems}>
             <GetFromDataBase setRnData={setRnData} setGetData={setGetData} />
-            {getData && <Observation dataForTrack={rNdata} />}
+            {getData && (
+              <Observation dataForTrack={rNdata} checkService={checkService} />
+            )}
           </View>
           <View>
-            <Gmaps latitude={rNdata.latitude} longitude={rNdata.longitude} />
+            {rNdata.latitude && rNdata.longitude ? (
+              <Gmaps latitude={rNdata.latitude} longitude={rNdata.longitude} />
+            ) : null}
           </View>
         </>
       )}

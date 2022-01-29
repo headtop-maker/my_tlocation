@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -19,7 +19,10 @@ interface IGetFromDataBaseProps {
   setRnData: (data: {latitude: string; longitude: string}) => void;
 }
 
-const GetFromDataBase = (props: IGetFromDataBaseProps) => {
+const GetFromDataBase: FC<IGetFromDataBaseProps> = ({
+  setGetData,
+  setRnData,
+}) => {
   const [seconds, setSeconds] = useState(0);
   const [startService, setStartService] = useState<boolean>(false);
 
@@ -32,9 +35,13 @@ const GetFromDataBase = (props: IGetFromDataBaseProps) => {
   useEffect(() => {
     if (startService && remoteDeviceId) {
       setTimeout(setSeconds, 1000, seconds + 1);
-      ToastKotlin.getFromDataBaseOnce(remoteDeviceId, (data: any) => {
-        props.setRnData(data);
-      });
+
+      ToastKotlin.getFromDataBaseOnce(
+        remoteDeviceId,
+        (data: {latitude: string; longitude: string}) => {
+          setRnData(data);
+        },
+      );
     }
   }, [startService, seconds, remoteDeviceId]);
 
@@ -43,7 +50,7 @@ const GetFromDataBase = (props: IGetFromDataBaseProps) => {
       <TouchableOpacity
         onPress={() => {
           setStartService(!startService);
-          props.setGetData(!startService);
+          setGetData(!startService);
         }}>
         {startService ? (
           <Pause width={40} height={40} strokeWidth={3} stroke={'#000000'} />

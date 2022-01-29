@@ -114,7 +114,7 @@ class MyForegroundService : Service() {
                    NotificationManager.IMPORTANCE_HIGH
                )
            notificationChannel.enableLights(true)
-           notificationChannel.setDescription("Channel escription")
+           notificationChannel.setDescription("Channel description")
            notificationChannel.setLightColor(Color.RED)
            notificationChannel.enableVibration(true)
 
