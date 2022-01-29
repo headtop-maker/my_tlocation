@@ -3,7 +3,6 @@ import {
   Text,
   View,
   StyleSheet,
-  Button,
   NativeModules,
   TouchableOpacity,
 } from 'react-native';
@@ -25,7 +24,6 @@ const GetFromDataBase: FC<IGetFromDataBaseProps> = ({
 }) => {
   const [seconds, setSeconds] = useState(0);
   const [startService, setStartService] = useState<boolean>(false);
-
   const remoteDeviceId = useSelector(getRemoteDeviceId);
 
   useEffect(() => {

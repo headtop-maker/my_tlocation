@@ -36,7 +36,6 @@ const SettingsScreen = ({navigation}: IProps) => {
   const updateTimeHandler = (value: number) => {
     dispatch(changeTimeAction(value));
   };
-  console.log(getUpdateTime);
 
   return (
     <>

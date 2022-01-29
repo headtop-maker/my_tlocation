@@ -1,20 +1,30 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Text, View, StyleSheet, NativeModules} from 'react-native';
 import {useDispatch} from 'react-redux';
+import {serviceName} from '../../../helpers/serviceName';
 import {setDeviceIdAction} from '../../../store/settings/action';
 import CustomButton from '../Buttons/CustomButton';
 
 const {ToastKotlin} = NativeModules;
 
-interface LocationProps {}
+interface ILocationProps {}
 
-const Location = (props: LocationProps) => {
-  const [title, setTitle] = useState('Включить трэкинг');
-  const [check, setCheck] = useState(false);
+const Location: FC<ILocationProps> = ({}) => {
+  const [checkService, setCheckService] = useState<boolean>(false);
+  const [title, setTitle] = useState('');
   const [deviceId, setDeviceId] = useState<string>('');
   const dispatch = useDispatch();
 
   useEffect(() => {
+    ToastKotlin.isServiceRunning(
+      serviceName.locationServiceName,
+      (checkService: boolean) => {
+        setCheckService(checkService);
+        checkService
+          ? setTitle('Выключить трэкинг')
+          : setTitle('Включить трэкинг');
+      },
+    );
     ToastKotlin.getDeviceID((devId: string) => {
       setDeviceId(devId);
     });
@@ -29,18 +39,16 @@ const Location = (props: LocationProps) => {
       ToastKotlin.show('Нет данных об устройстве', 5000);
       return;
     }
-    if (!check) {
+    if (!checkService) {
       setTitle('Выключить трэкинг');
       ToastKotlin.startServiceLocation(deviceId);
-      setCheck(!check);
+      setCheckService(!checkService);
     } else {
       setTitle('Включить трэкинг');
       ToastKotlin.stopServiceLocation();
-      setCheck(!check);
+      setCheckService(!checkService);
     }
   };
-
-  console.log(deviceId);
 
   return (
     <View style={styles.container}>

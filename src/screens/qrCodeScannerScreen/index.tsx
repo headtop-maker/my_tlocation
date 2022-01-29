@@ -32,7 +32,6 @@ const QrCodeScannerScreen = ({navigation}: IProps) => {
   const onSuccess = e => {
     setReactivate(false);
     ToastKotlin.getFromDataBaseOnce(e.data, (data: any) => {
-      console.log(data);
       if (!data.latitude && !data.longitude) {
         setHeaderText('Данных по этому устройству нет');
       } else {
@@ -40,8 +39,6 @@ const QrCodeScannerScreen = ({navigation}: IProps) => {
         navigation.goBack();
       }
     });
-
-    console.log(e.data);
   };
 
   return (

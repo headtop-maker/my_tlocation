@@ -18,6 +18,7 @@ import SCREENS from '../../../constants/screen';
 import CustomButton from '../../../common/components/Buttons/CustomButton';
 import {useSelector} from 'react-redux';
 import {getRemoteDeviceId} from '../../../store/settings/selector';
+import {serviceName} from '../../../helpers/serviceName';
 
 interface IProps {
   navigation: NavigationProp<IRouteParamList>;
@@ -34,10 +35,12 @@ const TabMapScreen = ({navigation}: IProps) => {
   const remoteDeviceId = useSelector(getRemoteDeviceId);
 
   useEffect(() => {
-    ToastKotlin.isServiceRunning((checkService: boolean) => {
-      console.log(checkService);
-      setCheckService(checkService);
-    });
+    ToastKotlin.isServiceRunning(
+      serviceName.observationServiceName,
+      (checkService: boolean) => {
+        setCheckService(checkService);
+      },
+    );
   }, [checkService]);
 
   return (

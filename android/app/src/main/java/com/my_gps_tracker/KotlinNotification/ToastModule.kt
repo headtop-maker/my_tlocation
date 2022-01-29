@@ -126,16 +126,16 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
     }
 
     @ReactMethod
-    private fun isServiceRunning(successCallback: Callback): Boolean {
+    private fun isServiceRunning(serviceName:String, successCallback: Callback): Boolean {
         val manager = reactApplicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
         for (service in manager!!.getRunningServices(Int.MAX_VALUE)) {
-            if ("com.my_gps_tracker.MyForegroundService" == service.service.className) {
-//                Toast.makeText(reactApplicationContext,"service running",Toast.LENGTH_SHORT).show()
+            if ("com.my_gps_tracker.${serviceName}" == service.service.className) {
+                Toast.makeText(reactApplicationContext,"service running",Toast.LENGTH_SHORT).show()
                 successCallback(true)
                 return true
             }
         }
-//       Toast.makeText(reactApplicationContext,"service stopping",Toast.LENGTH_SHORT).show()
+       Toast.makeText(reactApplicationContext,"service stopping",Toast.LENGTH_SHORT).show()
         successCallback(false)
         return false
     }

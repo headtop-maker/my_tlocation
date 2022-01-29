@@ -18,7 +18,6 @@ const Observation: FC<IObservationProps> = ({dataForTrack, checkService}) => {
   const remoteDeviceId = useSelector(getRemoteDeviceId);
 
   const handleObservation = () => {
-    console.log(dataForTrack);
     if (!check && remoteDeviceId) {
       setTitle('Выключить наблюдение');
       ToastKotlin.startForeGroundService(

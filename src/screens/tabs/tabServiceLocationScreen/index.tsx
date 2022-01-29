@@ -1,22 +1,15 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 
-import {
-  Button,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  NativeModules,
-} from 'react-native';
+import {Button, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import {useSelector} from 'react-redux';
 import Location from '../../../common/components/NativeComponents/Location';
 import {getGetDeviceId} from '../../../store/settings/selector';
 
-const {ToastKotlin} = NativeModules;
-
 const TabServiceLocationScreen = () => {
   const deviceId = useSelector(getGetDeviceId);
+
   return (
     <SafeAreaView style={styles.container}>
       <Text>Идентификатор устройства</Text>
