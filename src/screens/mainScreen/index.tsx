@@ -8,16 +8,9 @@ import {
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
-  NativeModules,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
-import Gmaps from '../../common/components/Gmaps';
 import SCREENS from '../../constants/screen';
 import {IRouteParamList} from '../../navigation/types';
-import {
-  setDeviceIdAction,
-  setRemoteDeviceIdAction,
-} from '../../store/settings/action';
 
 interface IProps {
   navigation: NavigationProp<IRouteParamList>;

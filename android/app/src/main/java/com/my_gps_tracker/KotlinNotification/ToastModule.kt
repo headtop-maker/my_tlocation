@@ -8,6 +8,8 @@ import com.facebook.react.bridge.ReactMethod
 
 import android.content.Intent
 import android.app.Activity
+import android.app.ActivityManager
+import android.content.Context
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
@@ -20,8 +22,6 @@ import java.util.*
 import com.facebook.react.bridge.WritableNativeMap
 
 import com.facebook.react.bridge.WritableMap
-
-
 
 
 
@@ -125,6 +125,20 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
         };
     }
 
+    @ReactMethod
+    private fun isServiceRunning(successCallback: Callback): Boolean {
+        val manager = reactApplicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
+        for (service in manager!!.getRunningServices(Int.MAX_VALUE)) {
+            if ("com.my_gps_tracker.MyForegroundService" == service.service.className) {
+//                Toast.makeText(reactApplicationContext,"service running",Toast.LENGTH_SHORT).show()
+                successCallback(true)
+                return true
+            }
+        }
+//       Toast.makeText(reactApplicationContext,"service stopping",Toast.LENGTH_SHORT).show()
+        successCallback(false)
+        return false
+    }
 
 }
 
