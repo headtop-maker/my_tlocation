@@ -12,9 +12,15 @@ import Settings from '../../common/icons/svg/settings.svg';
 import Camera from '../../common/icons/svg/camera.svg';
 import SCREENS from '../../constants/screen';
 import QrCodeScannerScreen from '../qrCodeScannerScreen';
+import {NavigationProp} from '@react-navigation/native';
+import {IRouteParamList} from '../../navigation/types';
+
+interface IProps {
+  navigation: NavigationProp<IRouteParamList>;
+}
 
 const Tab = createBottomTabNavigator();
-const TabScreen = ({navigation}) => {
+const TabScreen = ({navigation}: IProps) => {
   const SettingsHandler = () => {
     return (
       <View style={{marginRight: 20}}>
@@ -55,25 +61,6 @@ const TabScreen = ({navigation}) => {
               width={30}
               height={30}
               strokeWidth={3}
-              stroke={focused ? '#ff4343' : '#0040ff'}
-            />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name={TAB_SCREENS.TabCameraScreen}
-        component={QrCodeScannerScreen}
-        options={{
-          title: 'Сканировать ',
-          headerRight: () => {
-            return <SettingsHandler />;
-          },
-          tabBarIcon: ({focused}) => (
-            <Camera
-              width={40}
-              height={40}
-              strokeWidth={10}
               stroke={focused ? '#ff4343' : '#0040ff'}
             />
           ),

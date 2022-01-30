@@ -6,62 +6,66 @@ import {
   StyleSheet,
   Text,
   View,
-  NativeModules,
+  Image,
 } from 'react-native';
 import Gmaps from '../../../common/components/Gmaps';
 import Observation from '../../../common/components/NativeComponents/Observation';
 import GetFromDataBase from '../../../common/components/NativeComponents/GetFromDataBase';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {NavigationProp} from '@react-navigation/native';
 import {IRouteParamList} from '../../../navigation/types';
 import SCREENS from '../../../constants/screen';
 import CustomButton from '../../../common/components/Buttons/CustomButton';
 import {useSelector} from 'react-redux';
 import {getRemoteDeviceId} from '../../../store/settings/selector';
-import {serviceName} from '../../../helpers/serviceName';
+
+import CurrentLocationInfo from '../../../common/components/CurrentLocationInfo';
+import DeleteCurrentDevice from '../../../common/components/DeleteCurrentDevice';
 
 interface IProps {
   navigation: NavigationProp<IRouteParamList>;
 }
-const {ToastKotlin} = NativeModules;
 
 const TabMapScreen = ({navigation}: IProps) => {
   const [getData, setGetData] = useState(false);
-  const [checkService, setCheckService] = useState<boolean>(false);
   const [rNdata, setRnData] = useState<{latitude: string; longitude: string}>({
     latitude: '',
     longitude: '',
   });
   const remoteDeviceId = useSelector(getRemoteDeviceId);
 
-  useEffect(() => {
-    ToastKotlin.isServiceRunning(
-      serviceName.observationServiceName,
-      (checkService: boolean) => {
-        setCheckService(checkService);
-      },
-    );
-  }, [checkService]);
-
   return (
     <SafeAreaView style={styles.container}>
       {!remoteDeviceId ? (
-        <CustomButton
-          title={'сканировать qr'}
-          onPress={() => navigation.navigate(SCREENS.QrCodeScanner)}
-        />
+        <View style={styles.qrButton}>
+          <Image
+            style={{width: 220, height: 300}}
+            source={require('../../../common/icons/png/hanldeQR.png')}
+          />
+          <View>
+            <CustomButton
+              title={'сканировать qr'}
+              onPress={() => navigation.navigate(SCREENS.QrCodeScanner)}
+            />
+          </View>
+        </View>
       ) : (
         <>
-          <View style={styles.controlItems}>
-            <GetFromDataBase setRnData={setRnData} setGetData={setGetData} />
-            {getData && (
-              <Observation dataForTrack={rNdata} checkService={checkService} />
-            )}
-          </View>
-          <View>
+          <View style={styles.mapItem}>
             {rNdata.latitude && rNdata.longitude ? (
               <Gmaps latitude={rNdata.latitude} longitude={rNdata.longitude} />
             ) : null}
+          </View>
+          {getData && (
+            <CurrentLocationInfo
+              latitude={rNdata.latitude}
+              longitude={rNdata.longitude}
+            />
+          )}
+          <View style={styles.controlItems}>
+            <GetFromDataBase setRnData={setRnData} setGetData={setGetData} />
+            <Observation dataForTrack={rNdata} disabled={getData} />
+            <DeleteCurrentDevice getData={getData} />
           </View>
         </>
       )}
@@ -72,12 +76,38 @@ const TabMapScreen = ({navigation}: IProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fcfcfc1c',
   },
   controlItems: {
+    width: '97%',
+    marginTop: 10,
+    padding: 5,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: '#3a3a3ab0',
+    backgroundColor: '#FFFFFF',
+    elevation: 4,
+    alignSelf: 'center',
     alignItems: 'center',
     alignContent: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+  },
+  mapItem: {
+    width: '97%',
+    height: '70%',
+    marginTop: 10,
+    borderWidth: 1,
+    alignSelf: 'center',
+    borderRadius: 5,
+    borderColor: '#d0d0d01c',
+    elevation: 4,
+  },
+  qrButton: {
+    flex: 1,
+    justifyContent: 'center',
+    width: '50%',
+    alignSelf: 'center',
   },
 });
 

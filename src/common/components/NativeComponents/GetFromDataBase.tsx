@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import Start from '../../icons/svg/start.svg';
 import Pause from '../../icons/svg/pause.svg';
-import Delete from '../../icons/svg/delete.svg';
 import {useSelector} from 'react-redux';
 import {getRemoteDeviceId} from '../../../store/settings/selector';
 const {ToastKotlin} = NativeModules;

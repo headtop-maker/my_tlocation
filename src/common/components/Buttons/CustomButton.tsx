@@ -4,14 +4,19 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 interface CustomButtonProps {
   onPress: () => void;
   title: string;
+  disabled?: boolean;
 }
 
-const CustomButton: FC<CustomButtonProps> = ({onPress, title}) => {
+const CustomButton: FC<CustomButtonProps> = ({onPress, title, disabled}) => {
   return (
     <TouchableOpacity
+      disabled={disabled}
       activeOpacity={0.8}
       onPress={onPress}
-      style={styles.buttonContainer}>
+      style={[
+        styles.buttonContainer,
+        {backgroundColor: disabled ? '#C0C0C0' : '#6f0490'},
+      ]}>
       <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );
