@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   NativeModules,
+  Alert,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import Delete from '../../../common/icons/svg/delete.svg';
@@ -17,9 +18,22 @@ interface IDeleteCurrentDeviceProps {
 const {ToastKotlin} = NativeModules;
 const DeleteCurrentDevice: FC<IDeleteCurrentDeviceProps> = ({getData}) => {
   const dispatch = useDispatch();
+
   const deleteHandler = () => {
-    ToastKotlin.stopForeGroundService();
-    dispatch(setRemoteDeviceIdAction(''));
+    Alert.alert('Предупреждение', 'Вы действиетельно хотите удалить ?', [
+      {
+        text: 'Отмена',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          ToastKotlin.stopForeGroundService();
+          dispatch(setRemoteDeviceIdAction(''));
+        },
+      },
+    ]);
   };
 
   return (

@@ -16,12 +16,17 @@ import {NavigationProp} from '@react-navigation/native';
 import {IRouteParamList} from '../../../navigation/types';
 import SCREENS from '../../../constants/screen';
 import CustomButton from '../../../common/components/Buttons/CustomButton';
-import {useSelector} from 'react-redux';
-import {getRemoteDeviceId} from '../../../store/settings/selector';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getRemoteDeviceId,
+  getShowInputModal,
+} from '../../../store/settings/selector';
 
 import CurrentLocationInfo from '../../../common/components/CurrentLocationInfo';
 import DeleteCurrentDevice from '../../../common/components/DeleteCurrentDevice';
+import ModalWrapper from '../../../common/components/ModalWrapper';
 import {rnDataType} from '../../../common/components/types';
+import {setShowInputModalAction} from '../../../store/settings/action';
 
 interface IProps {
   navigation: NavigationProp<IRouteParamList>;
@@ -36,6 +41,8 @@ const TabMapScreen = ({navigation}: IProps) => {
     date: '',
   });
   const remoteDeviceId = useSelector(getRemoteDeviceId);
+  const isShowModal = useSelector(getShowInputModal);
+  const dispatch = useDispatch();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,6 +57,11 @@ const TabMapScreen = ({navigation}: IProps) => {
               title={'сканировать qr'}
               onPress={() => navigation.navigate(SCREENS.QrCodeScanner)}
             />
+            <CustomButton
+              title={'Ввести вручную'}
+              onPress={() => dispatch(setShowInputModalAction(true))}
+            />
+            <ModalWrapper isShow={isShowModal} />
           </View>
         </View>
       ) : (
@@ -112,6 +124,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     width: '50%',
+
     alignSelf: 'center',
   },
 });

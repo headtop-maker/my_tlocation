@@ -5,6 +5,7 @@ import {AnyAction} from 'redux';
 const initialState: ISettings = {
   remotedeviceID: '',
   deviceID: '',
+  showInputModal: false,
   settingsForm: {
     sendingTime: 1500,
   },
@@ -30,6 +31,11 @@ const settingsFormReducer = (state = initialState, action: AnyAction) => {
       return {
         ...state,
         remotedeviceID: action.payload,
+      };
+    case ActionType.setShowInputModal:
+      return {
+        ...state,
+        showInputModal: action.payload,
       };
 
     default:

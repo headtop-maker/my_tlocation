@@ -12,6 +12,7 @@ import {
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {useDispatch, useSelector} from 'react-redux';
+import {rnDataType} from '../../common/components/types';
 import {IRouteParamList} from '../../navigation/types';
 import {setRemoteDeviceIdAction} from '../../store/settings/action';
 import {getRemoteDeviceId} from '../../store/settings/selector';
@@ -31,7 +32,7 @@ const QrCodeScannerScreen = ({navigation}: IProps) => {
 
   const onSuccess = e => {
     setReactivate(false);
-    ToastKotlin.getFromDataBaseOnce(e.data, (data: any) => {
+    ToastKotlin.getFromDataBaseOnce(e.data, (data: rnDataType) => {
       if (!data.latitude && !data.longitude) {
         setHeaderText('Данных по этому устройству нет');
       } else {
