@@ -1,6 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {Button, SafeAreaView, StyleSheet, View} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import CustomButton from '../Buttons/CustomButton';
 
 interface GmapsProps {
   latitude: string;
@@ -33,6 +34,41 @@ const Gmaps: FC<GmapsProps> = ({latitude, longitude}) => {
         region={currentRegion}>
         <Marker coordinate={currentRegion} description="current region" />
       </MapView>
+      <View
+        style={{
+          position: 'absolute',
+          alignSelf: 'flex-end',
+          marginTop: '50%',
+        }}>
+        <CustomButton
+          title={'+'}
+          onPress={() => {
+            if (currentRegion.latitudeDelta > 0.002) {
+              setCurrentRegion(prevState => {
+                return {
+                  ...prevState,
+                  latitudeDelta: prevState.latitudeDelta - 0.002,
+                  longitudeDelta: prevState.longitudeDelta - 0.002,
+                };
+              });
+            }
+          }}
+        />
+        <CustomButton
+          title={'-'}
+          onPress={() => {
+            if (currentRegion.latitudeDelta < 0.1) {
+              setCurrentRegion(prevState => {
+                return {
+                  ...prevState,
+                  latitudeDelta: prevState.latitudeDelta + 0.002,
+                  longitudeDelta: prevState.longitudeDelta + 0.002,
+                };
+              });
+            }
+          }}
+        />
+      </View>
     </SafeAreaView>
   );
 };
