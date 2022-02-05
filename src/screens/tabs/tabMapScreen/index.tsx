@@ -21,6 +21,7 @@ import {getRemoteDeviceId} from '../../../store/settings/selector';
 
 import CurrentLocationInfo from '../../../common/components/CurrentLocationInfo';
 import DeleteCurrentDevice from '../../../common/components/DeleteCurrentDevice';
+import {rnDataType} from '../../../common/components/types';
 
 interface IProps {
   navigation: NavigationProp<IRouteParamList>;
@@ -28,9 +29,11 @@ interface IProps {
 
 const TabMapScreen = ({navigation}: IProps) => {
   const [getData, setGetData] = useState(false);
-  const [rNdata, setRnData] = useState<{latitude: string; longitude: string}>({
+  const [rNdata, setRnData] = useState<rnDataType>({
     latitude: '',
     longitude: '',
+    battery: '',
+    date: '',
   });
   const remoteDeviceId = useSelector(getRemoteDeviceId);
 
@@ -60,6 +63,8 @@ const TabMapScreen = ({navigation}: IProps) => {
             <CurrentLocationInfo
               latitude={rNdata.latitude}
               longitude={rNdata.longitude}
+              date={rNdata.date}
+              battery={rNdata.battery}
             />
           )}
           <View style={styles.controlItems}>

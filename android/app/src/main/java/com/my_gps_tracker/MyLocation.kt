@@ -3,7 +3,9 @@ package com.my_gps_tracker
 import android.Manifest
 import android.app.*
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.os.BatteryManager
 import android.os.Build
 import android.os.IBinder
 import android.os.Looper
@@ -14,6 +16,9 @@ import com.google.android.gms.location.*
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.math.ceil
 
 class MyLocation : Service() {
 
@@ -56,6 +61,20 @@ class MyLocation : Service() {
         return null
     }
 
+    fun getLevel(): Double {
+        val iFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        val battery = this.registerReceiver(null, iFilter)
+        val level = battery!!.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+        val scale = battery.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+        val batteryPercent =  level / scale.toFloat() // значение от 0 до 1
+        return batteryPercent.toDouble()
+    }
+
+    fun getDate(): String {
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        return sdf.format(Date())
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getLastLocation(devId: String) {
         initializeDbRef()
@@ -77,13 +96,20 @@ class MyLocation : Service() {
                     override fun onLocationResult(locationResult: LocationResult) {
                         for (location in locationResult.locations) {
                             if (location != null) {
-                                Log.d("location", "${location.latitude},${location.longitude}")
+                                Log.d("location", "${location.latitude},${location.longitude},${ceil(getLevel()*100)},${getDate()}")
                                 database.child(devId)
                                         .child("latitude")
                                         .setValue(location.latitude)
                                 database.child(devId)
                                         .child("longitude")
                                         .setValue(location.longitude)
+                                database.child(devId)
+                                    .child("battery")
+                                    .setValue(ceil(getLevel()*100))
+                                database.child(devId)
+                                    .child("date")
+                                    .setValue(getDate())
+
                             }
                         }
                     }

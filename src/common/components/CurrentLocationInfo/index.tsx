@@ -4,11 +4,15 @@ import {Text, View, StyleSheet} from 'react-native';
 interface ICurrentLocationInfoProps {
   latitude: string;
   longitude: string;
+  date: string;
+  battery: string;
 }
 
 const CurrentLocationInfo: FC<ICurrentLocationInfoProps> = ({
   latitude,
   longitude,
+  date,
+  battery,
 }) => {
   return (
     <View
@@ -30,8 +34,8 @@ const CurrentLocationInfo: FC<ICurrentLocationInfoProps> = ({
         <Text style={{fontWeight: 'bold'}}>Долгота:{longitude}</Text>
       </View>
       <View>
-        <Text style={{fontWeight: 'bold'}}>Скорость:</Text>
-        <Text style={{fontWeight: 'bold'}}>Заряд батареи:</Text>
+        <Text style={{fontWeight: 'bold'}}>Заряд:{battery}%</Text>
+        <Text style={{fontWeight: 'bold'}}>Дата:{date}</Text>
       </View>
     </View>
   );

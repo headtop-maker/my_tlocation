@@ -10,11 +10,12 @@ import Start from '../../icons/svg/start.svg';
 import Pause from '../../icons/svg/pause.svg';
 import {useSelector} from 'react-redux';
 import {getRemoteDeviceId} from '../../../store/settings/selector';
+import {rnDataType} from '../types';
 const {ToastKotlin} = NativeModules;
 
 interface IGetFromDataBaseProps {
   setGetData: (data: boolean) => void;
-  setRnData: (data: {latitude: string; longitude: string}) => void;
+  setRnData: (data: rnDataType) => void;
 }
 
 const GetFromDataBase: FC<IGetFromDataBaseProps> = ({
@@ -33,12 +34,9 @@ const GetFromDataBase: FC<IGetFromDataBaseProps> = ({
     if (startService && remoteDeviceId) {
       setTimeout(setSeconds, 1000, seconds + 1);
 
-      ToastKotlin.getFromDataBaseOnce(
-        remoteDeviceId,
-        (data: {latitude: string; longitude: string}) => {
-          setRnData(data);
-        },
-      );
+      ToastKotlin.getFromDataBaseOnce(remoteDeviceId, (data: rnDataType) => {
+        setRnData(data);
+      });
     }
   }, [startService, seconds, remoteDeviceId]);
 

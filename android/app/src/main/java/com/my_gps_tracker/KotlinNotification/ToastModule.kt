@@ -62,10 +62,18 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
         initializeDbRef()
 
         database.child(remoteDevId).get().addOnSuccessListener {
-            var latitude = it.child("latitude").value
-            var longitude= it.child("longitude").value
+            val latitude = it.child("latitude").value
+            val longitude= it.child("longitude").value
+
+            val batteryDev = it.child("battery").value
+            val dateDev = it.child("date").value
+
             resultData.putString("latitude", "$latitude")
             resultData.putString("longitude", "$longitude")
+
+            resultData.putString("battery", "$batteryDev")
+            resultData.putString("date", "$dateDev")
+
             successCallback.invoke(resultData)
         }.addOnFailureListener{
             Log.e("firebase", "Error getting data", it)
