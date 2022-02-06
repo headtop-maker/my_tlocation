@@ -7,6 +7,8 @@ import TabScreen from '../../screens/tabScreen';
 import SCREENS from '../../constants/screen';
 import SettingsScreen from '../../screens/settingsScreen';
 import QrCodeScannerScreen from '../../screens/qrCodeScannerScreen';
+import {View} from 'react-native';
+import {Text} from 'react-native-svg';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,10 +24,13 @@ const MainContainer = () => {
           name={SCREENS.SettingsScreen}
           component={SettingsScreen}
         />
-        <Stack.Screen
-          name={SCREENS.QrCodeScanner}
-          component={QrCodeScannerScreen}
-        />
+        <Stack.Group screenOptions={{headerShown: true}}>
+          <Stack.Screen
+            name={SCREENS.QrCodeScanner}
+            component={QrCodeScannerScreen}
+            options={{title: 'Сканер'}}
+          />
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );

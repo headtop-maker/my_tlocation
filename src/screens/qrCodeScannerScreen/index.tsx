@@ -1,21 +1,20 @@
 import {NavigationProp} from '@react-navigation/native';
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {
-  View,
   Text,
   StyleSheet,
   AppRegistry,
   TouchableOpacity,
-  Linking,
   NativeModules,
+  Alert,
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+
 import {rnDataType} from '../../common/components/types';
 import {IRouteParamList} from '../../navigation/types';
 import {setRemoteDeviceIdAction} from '../../store/settings/action';
-import {getRemoteDeviceId} from '../../store/settings/selector';
 
 const {ToastKotlin} = NativeModules;
 
@@ -24,41 +23,48 @@ interface IProps {
 }
 
 const QrCodeScannerScreen = ({navigation}: IProps) => {
-  const [reactivate, setReactivate] = useState(false);
-  const [headerText, setHeaderText] = useState('');
-
   const dispatch = useDispatch();
-  let scanner = useRef(null);
+  const scanner = useRef<any>();
 
   const onSuccess = e => {
-    setReactivate(false);
-    ToastKotlin.getFromDataBaseOnce(e.data, (data: rnDataType) => {
-      if (!data.latitude && !data.longitude) {
-        setHeaderText('Данных по этому устройству нет');
-      } else {
-        dispatch(setRemoteDeviceIdAction(e.data));
-        navigation.goBack();
-      }
-    });
+    try {
+      ToastKotlin.getFromDataBaseOnce(e.data, (data: rnDataType) => {
+        if (
+          (!data.latitude && !data.longitude) ||
+          (data.latitude === 'null' && data.longitude === 'null')
+        ) {
+          Alert.alert('Предупреждение', 'Данных по этому устройству нет', [
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ]);
+        } else {
+          dispatch(setRemoteDeviceIdAction(e.data));
+          navigation.goBack();
+        }
+      });
+    } catch (e) {
+      Alert.alert('Предупреждение', `${e}`, [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+    }
   };
 
   return (
     <QRCodeScanner
+      ref={node => {
+        scanner.current = node;
+      }}
       onRead={onSuccess}
-      ref={scanner}
       showMarker={true}
       vibrate={true}
-      reactivate={reactivate}
-      // flashMode={RNCamera.Constants.FlashMode.torch}
       topContent={
         <Text style={styles.centerText}>
-          <Text style={styles.textBold}>{headerText}</Text>{' '}
+          <Text style={styles.textBold}>Отсканируйте QR устройства</Text>{' '}
         </Text>
       }
       bottomContent={
         <TouchableOpacity
           style={styles.buttonTouchable}
-          onPress={() => setReactivate(true)}>
+          onPress={() => scanner.current.reactivate()}>
           <Text style={styles.buttonText}>Сканировать</Text>
         </TouchableOpacity>
       }
