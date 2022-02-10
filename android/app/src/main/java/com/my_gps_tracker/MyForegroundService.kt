@@ -97,7 +97,7 @@ class MyForegroundService : Service() {
                 var shortLatitude = ("%.${devAccuracy}f".format(latitude.toFloat()));
                 var shortLongitude = ("%.${devAccuracy}f".format(longitude.toFloat()));
 
-                Log.i("firebase", "Got value $latitude , $longitude,$shortDevLatitude,$shortDevLongitude ")
+                Log.i("firebase", "Got value $latitude , $longitude,$shortDevLatitude,$shortDevLongitude , $devAccuracy ")
 
                 if(shortLatitude != shortDevLatitude ||shortLongitude != shortDevLongitude){
                     showCurrentInfo("Позиция изменилась","текущее положение $latitude , $longitude")
