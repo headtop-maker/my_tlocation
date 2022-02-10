@@ -99,7 +99,7 @@ class MyForegroundService : Service() {
 
                 Log.i("firebase", "Got value $latitude , $longitude,$shortDevLatitude,$shortDevLongitude ")
 
-                if(latitude != devLatitude ||longitude != devLongitude){
+                if(shortLatitude != shortDevLatitude ||shortLongitude != shortDevLongitude){
                     showCurrentInfo("Позиция изменилась","текущее положение $latitude , $longitude")
                 }
 
