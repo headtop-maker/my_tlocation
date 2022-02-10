@@ -48,21 +48,32 @@ const TabMapScreen = ({navigation}: IProps) => {
     <SafeAreaView style={styles.container}>
       {!remoteDeviceId ? (
         <View style={styles.qrButton}>
-          <Image
+          
+
+          <View style={styles.getIdButtons}>
+            <View>
+            <Image
             style={{width: 220, height: 300}}
             source={require('../../../common/icons/png/hanldeQR.png')}
-          />
+          /> 
+            </View>
           <View>
             <CustomButton
               title={'сканировать qr'}
               onPress={() => navigation.navigate(SCREENS.QrCodeScanner)}
             />
-            <CustomButton
+          </View>
+         <View>
+              <CustomButton
               title={'Ввести вручную'}
               onPress={() => dispatch(setShowInputModalAction(true))}
             />
-            <ModalWrapper isShow={isShowModal} />
+             <ModalWrapper isShow={isShowModal} />
+        </View>
+
+           
           </View>
+
         </View>
       ) : (
         <>
@@ -124,9 +135,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     width: '50%',
-
     alignSelf: 'center',
   },
+  getIdButtons:{flex:0.6, height:'50%', flexDirection:'column',justifyContent:'space-around'}
 });
 
 export default TabMapScreen;

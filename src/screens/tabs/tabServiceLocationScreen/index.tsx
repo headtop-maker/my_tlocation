@@ -30,6 +30,8 @@ const TabServiceLocationScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+       <View style={{flex:0.5, height:'50%', flexDirection:'column',justifyContent:'space-evenly',alignItems:'center'}}>
+         
       <Text>Идентификатор устройства</Text>
 
       {deviceId ? (
@@ -45,6 +47,7 @@ const TabServiceLocationScreen = () => {
       <View style={styles.body}>
         <Location />
       </View>
+</View> 
     </SafeAreaView>
   );
 };
