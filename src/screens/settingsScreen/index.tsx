@@ -8,16 +8,16 @@ import {
   NativeModules,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {getChangeTime} from '../../store/settings/selector';
+import {getAccuracy, getChangeTime} from '../../store/settings/selector';
 import {NavigationProp} from '@react-navigation/native';
 import {IRouteParamList} from '../../navigation/types';
-import {changeTimeAction} from '../../store/settings/action';
+import {changeTimeAction, setAccuracy} from '../../store/settings/action';
 
 interface IProps {
   navigation: NavigationProp<IRouteParamList>;
 }
 
-const timesUpload = [1000, 1500, 2000];
+const timesUpload = [1, 2, 3,4,5,6,7];
 
 interface IPickerValue {
   pickerValue: number | string | null;
@@ -27,24 +27,24 @@ const {ToastKotlin, Pop} = NativeModules;
 
 const SettingsScreen = ({navigation}: IProps) => {
   const [showPicker, setShowPicker] = useState<boolean>(false);
-  const getUpdateTime = useSelector(getChangeTime);
+  const getAccuracyValue = useSelector(getAccuracy);
   const [pickerValue, setPickerValue] = useState<number | string>(
-    getUpdateTime ? getUpdateTime : 1000,
+    getAccuracyValue ? getAccuracyValue : 7,
   );
   const dispatch = useDispatch();
 
   const updateTimeHandler = (value: number) => {
-    dispatch(changeTimeAction(value));
+    dispatch(setAccuracy(value));
   };
 
   return (
     <>
       <View style={styles.container}>
-        <Text>SETTINGS SCREEN</Text>
+        <Text>Точность</Text>
         <View style={styles.showPicker}>
           <TouchableOpacity onPress={() => setShowPicker(!showPicker)}>
             <View style={styles.pickerHeader}>
-              <Text>PICKER HANDLER</Text>
+              <Text>Количечество знаков:</Text>
               <Text>{pickerValue && pickerValue}</Text>
             </View>
           </TouchableOpacity>
@@ -59,8 +59,7 @@ const SettingsScreen = ({navigation}: IProps) => {
                     setShowPicker(!showPicker);
                     setPickerValue(value);
                     updateTimeHandler(value);
-                    ToastKotlin.show(`update time ${value}`, 5);
-                    Pop.trigger('Параметр изменен', `${value}`);
+                    Pop.trigger('Точность изменена на :', `${value}`);
                   }}>
                   <View style={styles.pickerItem}>
                     <Text> {value}</Text>
@@ -85,6 +84,7 @@ const styles = StyleSheet.create({
   },
   showPicker: {
     width: '50%',
+    position:'relative',
   },
 
   picker: {

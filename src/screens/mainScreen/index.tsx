@@ -9,6 +9,7 @@ import {
   Text,
   TouchableWithoutFeedback,
 } from 'react-native';
+import CustomButton from '../../common/components/Buttons/CustomButton';
 import SCREENS from '../../constants/screen';
 import {IRouteParamList} from '../../navigation/types';
 
@@ -21,11 +22,12 @@ const MainScreen = ({navigation}: IProps) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={styles.container}>
         <Text>Main Container</Text>
+    
+      <CustomButton
+        title={'Войти '}
+        onPress={() => navigation.navigate(SCREENS.TabScreen)}
 
-        <Button
-          title="Navigate TabScreen"
-          onPress={() => navigation.navigate(SCREENS.TabScreen)}
-        />
+      />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

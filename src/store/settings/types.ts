@@ -1,5 +1,5 @@
 interface ISettingsForm {
-  sendingTime: number;
+  accuracy: number;
 }
 export interface ISettings {
   settingsForm: ISettingsForm;

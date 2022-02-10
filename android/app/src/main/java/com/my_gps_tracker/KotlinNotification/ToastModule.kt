@@ -92,7 +92,7 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
     }
 
     @ReactMethod
-    fun startForeGroundService(deviceID:String,deviceLatitude:String,deviceLongitude:String){
+    fun startForeGroundService(deviceID:String,deviceLatitude:String,deviceLongitude:String,devAccuracy:Double){
         val intent = Intent(getReactApplicationContext(), MyForegroundService::class.java)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -100,6 +100,7 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
             intent.putExtra("devId",deviceID)
             intent.putExtra("deviceLatitude",deviceLatitude)
             intent.putExtra("deviceLongitude",deviceLongitude)
+            intent.putExtra("deviceAccuracy",devAccuracy)
             getReactApplicationContext()?.startForegroundService(intent)
         };
     }

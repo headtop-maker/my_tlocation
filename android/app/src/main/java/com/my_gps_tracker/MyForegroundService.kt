@@ -10,7 +10,6 @@ import android.graphics.Color
 
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.google.firebase.database.DatabaseReference
@@ -52,7 +51,8 @@ class MyForegroundService : Service() {
                 Log.d("FService", "Service Foreground run__ ${intent.getStringExtra("devId")}")
                 onFirebaseData(intent.getStringExtra("devId").toString(),
                  intent.getStringExtra("deviceLatitude").toString(),
-                    intent.getStringExtra("deviceLongitude").toString()
+                    intent.getStringExtra("deviceLongitude").toString(),
+                        intent.getIntExtra("deviceAccuracy",5),
                 )
                     try {
                         Thread.sleep(2000)
@@ -86,13 +86,18 @@ class MyForegroundService : Service() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onFirebaseData (devId:String,devLatitude: String,devLongitude: String){
+    fun onFirebaseData (devId:String, devLatitude: String, devLongitude: String, devAccuracy: Int){
         initializeDbRef()
         database.child(devId).get().addOnSuccessListener {
             if (it.exists()){
                 var latitude = it.child("latitude").value.toString()
                 var longitude= it.child("longitude").value.toString()
-                Log.i("firebase", "Got value $latitude , $longitude")
+                var shortDevLatitude = ("%.${devAccuracy}f".format(devLatitude.toFloat()));
+                var shortDevLongitude = ("%.${devAccuracy}f".format(devLongitude.toFloat()));
+                var shortLatitude = ("%.${devAccuracy}f".format(latitude.toFloat()));
+                var shortLongitude = ("%.${devAccuracy}f".format(longitude.toFloat()));
+
+                Log.i("firebase", "Got value $latitude , $longitude,$shortDevLatitude,$shortDevLongitude ")
 
                 if(latitude != devLatitude ||longitude != devLongitude){
                     showCurrentInfo("Позиция изменилась","текущее положение $latitude , $longitude")
