@@ -50,8 +50,8 @@ class MyForegroundService : Service() {
             while (param) {
                 Log.d("FService", "Service Foreground run__ ${intent.getStringExtra("devId")}")
                 onFirebaseData(intent.getStringExtra("devId").toString(),
-                 intent.getStringExtra("deviceLatitude").toString(),
-                    intent.getStringExtra("deviceLongitude").toString(),
+                 intent.getDoubleExtra("deviceLatitude",0.0).toString(),
+                    intent.getDoubleExtra("deviceLongitude",0.0).toString(),
                         intent.getIntExtra("deviceAccuracy",5),
                 )
                     try {

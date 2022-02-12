@@ -7,7 +7,7 @@ import CustomButton from '../Buttons/CustomButton';
 
 const {ToastKotlin} = NativeModules;
 interface IObservationProps {
-  dataForTrack: {latitude: string; longitude: string};
+  dataForTrack: {latitude: number; longitude: number};
   disabled?: boolean;
 }
 
@@ -19,7 +19,7 @@ const Observation: FC<IObservationProps> = ({dataForTrack, disabled}) => {
 
   useEffect(() => {
     console.log(getAccuracyValue);
-    console.log()
+    console.log();
     ToastKotlin.isServiceRunning(
       serviceName.observationServiceName,
       (checkService: boolean) => {
@@ -31,8 +31,6 @@ const Observation: FC<IObservationProps> = ({dataForTrack, disabled}) => {
     );
   }, []);
 
-  
-
   const handleObservation = () => {
     console.log(getAccuracyValue);
     if (!checkService && remoteDeviceId && getAccuracyValue) {
@@ -41,7 +39,7 @@ const Observation: FC<IObservationProps> = ({dataForTrack, disabled}) => {
         remoteDeviceId,
         dataForTrack.latitude,
         dataForTrack.longitude,
-        getAccuracyValue
+        getAccuracyValue,
       );
       setCheckService(!checkService);
     } else {

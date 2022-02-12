@@ -35,8 +35,8 @@ interface IProps {
 const TabMapScreen = ({navigation}: IProps) => {
   const [getData, setGetData] = useState(false);
   const [rNdata, setRnData] = useState<rnDataType>({
-    latitude: '',
-    longitude: '',
+    latitude: 0,
+    longitude: 0,
     battery: '',
     date: '',
   });
@@ -48,32 +48,27 @@ const TabMapScreen = ({navigation}: IProps) => {
     <SafeAreaView style={styles.container}>
       {!remoteDeviceId ? (
         <View style={styles.qrButton}>
-          
-
           <View style={styles.getIdButtons}>
             <View>
-            <Image
-            style={{width: 220, height: 300}}
-            source={require('../../../common/icons/png/hanldeQR.png')}
-          /> 
+              <Image
+                style={{width: 220, height: 300}}
+                source={require('../../../common/icons/png/hanldeQR.png')}
+              />
             </View>
-          <View>
-            <CustomButton
-              title={'сканировать qr'}
-              onPress={() => navigation.navigate(SCREENS.QrCodeScanner)}
-            />
-          </View>
-         <View>
+            <View>
               <CustomButton
-              title={'Ввести вручную'}
-              onPress={() => dispatch(setShowInputModalAction(true))}
-            />
-             <ModalWrapper isShow={isShowModal} />
-        </View>
-
-           
+                title={'сканировать qr'}
+                onPress={() => navigation.navigate(SCREENS.QrCodeScanner)}
+              />
+            </View>
+            <View>
+              <CustomButton
+                title={'Ввести вручную'}
+                onPress={() => dispatch(setShowInputModalAction(true))}
+              />
+              <ModalWrapper isShow={isShowModal} />
+            </View>
           </View>
-
         </View>
       ) : (
         <>
@@ -137,7 +132,12 @@ const styles = StyleSheet.create({
     width: '50%',
     alignSelf: 'center',
   },
-  getIdButtons:{flex:0.6, height:'50%', flexDirection:'column',justifyContent:'space-around'}
+  getIdButtons: {
+    flex: 0.6,
+    height: '50%',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+  },
 });
 
 export default TabMapScreen;

@@ -2,8 +2,8 @@ import React, {FC} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
 interface ICurrentLocationInfoProps {
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   date: string;
   battery: string;
 }
