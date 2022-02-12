@@ -35,8 +35,8 @@ interface IProps {
 const TabMapScreen = ({navigation}: IProps) => {
   const [getData, setGetData] = useState(false);
   const [rNdata, setRnData] = useState<rnDataType>({
-    latitude: 0,
-    longitude: 0,
+    latitude: 0.0,
+    longitude: 0.0,
     battery: '',
     date: '',
   });

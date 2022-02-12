@@ -20,8 +20,8 @@ const Gmaps: FC<GmapsProps> = ({latitude, longitude}) => {
     setCurrentRegion(prevState => {
       return {
         ...prevState,
-        latitude: parseFloat(latitude),
-        longitude: parseFloat(longitude),
+        latitude: parseFloat(`${latitude}`),
+        longitude: parseFloat(`${longitude}`),
       };
     });
   }, [latitude, longitude]);

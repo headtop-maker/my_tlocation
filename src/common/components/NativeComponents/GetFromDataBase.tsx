@@ -64,3 +64,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+// useEffect(() => {
+//   timer.current = setInterval(() => {
+//     setTime(t => t + 1);
+
+//     ToastKotlin.getFromDataBaseOnce(remoteDeviceId, (data: rnDataType) => {
+//       setRnData(data);
+//     });
+//   }, 1000);
+// }, []);
+// useEffect(() => {
+//   return () => {
+//     clearInterval(timer.current);
+//   };
+// }, []);

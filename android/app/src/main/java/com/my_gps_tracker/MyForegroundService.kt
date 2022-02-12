@@ -48,10 +48,10 @@ class MyForegroundService : Service() {
 
         Thread {
             while (param) {
-                Log.d("FService", "Service Foreground run__ ${intent.getStringExtra("devId")}")
+//                Log.d("FService", "Service Foreground run__ ${intent.getStringExtra("devId")}")
                 onFirebaseData(intent.getStringExtra("devId").toString(),
-                 intent.getDoubleExtra("deviceLatitude",0.0).toString(),
-                    intent.getDoubleExtra("deviceLongitude",0.0).toString(),
+                 intent.getStringExtra("deviceLatitude").toString(),
+                    intent.getStringExtra("deviceLongitude").toString(),
                         intent.getIntExtra("deviceAccuracy",5),
                 )
                     try {
@@ -90,14 +90,14 @@ class MyForegroundService : Service() {
         initializeDbRef()
         database.child(devId).get().addOnSuccessListener {
             if (it.exists()){
-                var latitude = it.child("latitude").value.toString()
-                var longitude= it.child("longitude").value.toString()
-                var shortDevLatitude = ("%.${devAccuracy}f".format(devLatitude.toFloat()));
-                var shortDevLongitude = ("%.${devAccuracy}f".format(devLongitude.toFloat()));
-                var shortLatitude = ("%.${devAccuracy}f".format(latitude.toFloat()));
-                var shortLongitude = ("%.${devAccuracy}f".format(longitude.toFloat()));
+                val latitude = it.child("latitude").value.toString()
+                val longitude= it.child("longitude").value.toString()
+                val shortDevLatitude = ("%.${devAccuracy}f".format(devLatitude.toFloat()));
+                val shortDevLongitude = ("%.${devAccuracy}f".format(devLongitude.toFloat()));
+                val shortLatitude = ("%.${devAccuracy}f".format(latitude.toFloat()));
+                val shortLongitude = ("%.${devAccuracy}f".format(longitude.toFloat()));
 
-                Log.i("firebase", "Got value $latitude , $longitude,$shortDevLatitude,$shortDevLongitude , $devAccuracy ")
+//                Log.i("firebase", "Got value $latitude , $longitude,$shortDevLatitude,$shortDevLongitude , $devAccuracy ")
 
                 if(shortLatitude != shortDevLatitude ||shortLongitude != shortDevLongitude){
                     showCurrentInfo("Позиция изменилась","текущее положение $latitude , $longitude")
