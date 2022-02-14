@@ -7,7 +7,7 @@ import CustomButton from '../Buttons/CustomButton';
 
 const {ToastKotlin} = NativeModules;
 interface IObservationProps {
-  dataForTrack: {latitude: number; longitude: number};
+  dataForTrack: {latitude: string; longitude: string};
   disabled?: boolean;
 }
 

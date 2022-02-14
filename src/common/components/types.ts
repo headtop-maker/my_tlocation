@@ -1,6 +1,6 @@
 export type rnDataType = {
-  latitude: number;
-  longitude: number;
+  latitude: string;
+  longitude: string;
   battery: string;
   date: string;
 };
