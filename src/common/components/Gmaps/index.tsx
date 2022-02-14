@@ -4,8 +4,8 @@ import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import CustomButton from '../Buttons/CustomButton';
 
 interface GmapsProps {
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
 }
 
 const Gmaps: FC<GmapsProps> = ({latitude, longitude}) => {
@@ -20,8 +20,8 @@ const Gmaps: FC<GmapsProps> = ({latitude, longitude}) => {
     setCurrentRegion(prevState => {
       return {
         ...prevState,
-        latitude: parseFloat(latitude),
-        longitude: parseFloat(longitude),
+        latitude: latitude,
+        longitude: longitude,
       };
     });
   }, [latitude, longitude]);

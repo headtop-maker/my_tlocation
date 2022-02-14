@@ -50,8 +50,8 @@ class MyForegroundService : Service() {
             while (param) {
                 Log.d("FService", "Service Foreground run__ ${intent.getStringExtra("devId")}")
                 onFirebaseData(intent.getStringExtra("devId").toString(),
-                 intent.getStringExtra("deviceLatitude").toString(),
-                    intent.getStringExtra("deviceLongitude").toString(),
+                 intent.getDoubleExtra("deviceLatitude",0.0000000),
+                    intent.getDoubleExtra("deviceLongitude",0.0000000),
                         intent.getIntExtra("deviceAccuracy",5),
                 )
                     try {
@@ -86,16 +86,16 @@ class MyForegroundService : Service() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onFirebaseData (devId:String, devLatitude: String, devLongitude: String, devAccuracy: Int){
+    fun onFirebaseData (devId:String, devLatitude: Double, devLongitude: Double, devAccuracy: Int){
         initializeDbRef()
         database.child(devId).get().addOnSuccessListener {
             if (it.exists()){
-                var latitude = it.child("latitude").value.toString()
-                var longitude= it.child("longitude").value.toString()
-                var shortDevLatitude = ("%.${devAccuracy}f".format(devLatitude.toFloat()));
-                var shortDevLongitude = ("%.${devAccuracy}f".format(devLongitude.toFloat()));
-                var shortLatitude = ("%.${devAccuracy}f".format(latitude.toFloat()));
-                var shortLongitude = ("%.${devAccuracy}f".format(longitude.toFloat()));
+                var latitude = it.child("latitude").value
+                var longitude= it.child("longitude").value
+                var shortDevLatitude = ("%.${devAccuracy}f".format(devLatitude));
+                var shortDevLongitude = ("%.${devAccuracy}f".format(devLongitude));
+                var shortLatitude = ("%.${devAccuracy}f".format(latitude));
+                var shortLongitude = ("%.${devAccuracy}f".format(longitude));
 
                 Log.i("firebase", "Got value $latitude , $longitude,$shortDevLatitude,$shortDevLongitude , $devAccuracy ")
 

@@ -30,8 +30,7 @@ const QrCodeScannerScreen = ({navigation}: IProps) => {
     try {
       ToastKotlin.getFromDataBaseOnce(e.data, (data: rnDataType) => {
         if (
-          (!data.latitude && !data.longitude) ||
-          (data.latitude === 'null' && data.longitude === 'null')
+          (!data.latitude && !data.longitude)
         ) {
           Alert.alert('Предупреждение', 'Данных по этому устройству нет', [
             {text: 'OK', onPress: () => console.log('OK Pressed')},
