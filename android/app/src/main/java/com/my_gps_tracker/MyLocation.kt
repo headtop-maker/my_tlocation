@@ -71,7 +71,7 @@ class MyLocation : Service() {
     }
 
     fun getDate(): String {
-        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss a")
         return sdf.format(Date())
     }
 
