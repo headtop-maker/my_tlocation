@@ -59,6 +59,7 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
     fun getFromDataBaseOnce(remoteDevId:String,successCallback: Callback){
         val resultData: WritableMap = WritableNativeMap()
 
+
         initializeDbRef()
 
         database.child(remoteDevId).get().addOnSuccessListener {
@@ -67,9 +68,19 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
 
             val batteryDev = it.child("battery").value
             val dateDev = it.child("date").value
+            Log.i("firebase", "Got value $latitude")
 
-            resultData.putDouble("latitude", latitude as Double)
-            resultData.putDouble("longitude", longitude as Double)
+            if(latitude !== null && longitude !== null){
+                resultData.putDouble("latitude", latitude as Double)
+                resultData.putDouble("longitude", longitude as Double)
+            }else{
+                resultData.putNull("latitude")
+                resultData.putNull("longitude")
+            }
+
+
+
+
 
             resultData.putString("battery", "$batteryDev")
             resultData.putString("date", "$dateDev")

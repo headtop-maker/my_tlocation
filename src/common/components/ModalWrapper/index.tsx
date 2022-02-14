@@ -35,6 +35,7 @@ const ModalWrapper: FC<IModalWrapperProps> = ({isShow}) => {
 
   const handleCode = () => {
     ToastKotlin.getFromDataBaseOnce(devId, (data: rnDataType) => {
+      console.log(data);
       if (
         (!data.latitude && !data.longitude)
       ) {
