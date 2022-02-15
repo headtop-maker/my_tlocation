@@ -8,7 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-  NativeModules,
+  NativeModules, ImageBackground,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import {useSelector} from 'react-redux';
@@ -29,7 +29,9 @@ const TabServiceLocationScreen = () => {
   };
 
   return (
+      <ImageBackground source= {require('../../../common/images/travel.jpg')} resizeMode="cover" style={styles.image} blurRadius={9}>
     <SafeAreaView style={styles.container}>
+
        <View style={{flex:0.5, height:'50%', flexDirection:'column',justifyContent:'space-evenly',alignItems:'center'}}>
          
       <Text>Идентификатор устройства</Text>
@@ -47,8 +49,10 @@ const TabServiceLocationScreen = () => {
       <View style={styles.body}>
         <Location />
       </View>
-</View> 
+</View>
     </SafeAreaView>
+      </ImageBackground>
+
   );
 };
 
@@ -63,6 +67,10 @@ const styles = StyleSheet.create({
   },
   qrData: {
     alignItems: 'center',
+  },
+  image: {
+    flex: 1,
+    justifyContent: "center"
   },
   text: {
     fontSize: 16,
