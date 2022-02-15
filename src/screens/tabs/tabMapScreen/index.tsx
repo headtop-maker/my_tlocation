@@ -44,7 +44,7 @@ const TabMapScreen = ({navigation}: IProps) => {
   const dispatch = useDispatch();
 
   return (
-      <ImageBackground source= {require('../../../common/images/travel.jpg')} resizeMode="cover" style={styles.image} blurRadius={9}>
+      <ImageBackground source= {require('../../../common/images/travel.jpg')} resizeMode="cover" style={styles.image} blurRadius={4}>
     <SafeAreaView style={styles.container}>
 
       {!remoteDeviceId ? (
