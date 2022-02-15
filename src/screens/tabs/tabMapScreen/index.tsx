@@ -1,10 +1,8 @@
 import * as React from 'react';
 
 import {
-  Button,
   SafeAreaView,
   StyleSheet,
-  Text,
   View,
   Image,
 } from 'react-native';
@@ -34,7 +32,7 @@ interface IProps {
 
 const TabMapScreen = ({navigation}: IProps) => {
   const [getData, setGetData] = useState(false);
-  const [rNdata, setRnData] = useState<rnDataType>({
+  const [RNdata, setRnData] = useState<rnDataType>({
     latitude: 0,
     longitude: 0,
     battery: '',
@@ -78,21 +76,21 @@ const TabMapScreen = ({navigation}: IProps) => {
       ) : (
         <>
           <View style={styles.mapItem}>
-            {rNdata.latitude && rNdata.longitude ? (
-              <Gmaps latitude={rNdata.latitude} longitude={rNdata.longitude} />
+            {RNdata.latitude && RNdata.longitude ? (
+              <Gmaps latitude={RNdata.latitude} longitude={RNdata.longitude} />
             ) : null}
           </View>
           {getData && (
             <CurrentLocationInfo
-              latitude={rNdata.latitude}
-              longitude={rNdata.longitude}
-              date={rNdata.date}
-              battery={rNdata.battery}
+              latitude={RNdata.latitude}
+              longitude={RNdata.longitude}
+              date={RNdata.date}
+              battery={RNdata.battery}
             />
           )}
           <View style={styles.controlItems}>
             <GetFromDataBase setRnData={setRnData} setGetData={setGetData} />
-            <Observation dataForTrack={rNdata} disabled={getData} />
+            <Observation dataForTrack={RNdata} disabled={getData} />
             <DeleteCurrentDevice getData={getData} />
           </View>
         </>
