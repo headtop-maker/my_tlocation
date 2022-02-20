@@ -18,8 +18,6 @@ const Observation: FC<IObservationProps> = ({dataForTrack, disabled}) => {
   const remoteDeviceId = useSelector(getRemoteDeviceId);
 
   useEffect(() => {
-    console.log(getAccuracyValue);
-    console.log()
     ToastKotlin.isServiceRunning(
       serviceName.observationServiceName,
       (checkService: boolean) => {
@@ -31,17 +29,14 @@ const Observation: FC<IObservationProps> = ({dataForTrack, disabled}) => {
     );
   }, []);
 
-  
-
   const handleObservation = () => {
-    console.log(getAccuracyValue);
     if (!checkService && remoteDeviceId && getAccuracyValue) {
       setTitle('Выключить наблюдение');
       ToastKotlin.startForeGroundService(
         remoteDeviceId,
         dataForTrack.latitude,
         dataForTrack.longitude,
-        getAccuracyValue
+        getAccuracyValue,
       );
       setCheckService(!checkService);
     } else {

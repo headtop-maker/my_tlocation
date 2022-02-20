@@ -35,10 +35,7 @@ const ModalWrapper: FC<IModalWrapperProps> = ({isShow}) => {
 
   const handleCode = () => {
     ToastKotlin.getFromDataBaseOnce(devId, (data: rnDataType) => {
-      console.log(data);
-      if (
-        (!data.latitude && !data.longitude)
-      ) {
+      if (!data.latitude && !data.longitude) {
         Alert.alert('Предупреждение', 'Данных по этому устройству нет', [
           {text: 'OK', onPress: () => console.log('OK Pressed')},
         ]);
@@ -56,7 +53,7 @@ const ModalWrapper: FC<IModalWrapperProps> = ({isShow}) => {
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Введите ID:</Text>
             <TextInput
-              placeholder="device id"
+              placeholder=""
               style={styles.input}
               onChangeText={setDevId}
               value={devId}
@@ -119,10 +116,10 @@ const styles = StyleSheet.create({
     width: '45%',
   },
   buttonOpen: {
-    backgroundColor: '#30a14e',
+    backgroundColor: '#1b6432',
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#277b94',
   },
   textStyle: {
     color: 'white',
