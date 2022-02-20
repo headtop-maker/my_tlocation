@@ -1,7 +1,7 @@
 import TState from '../rootType';
 
-export const getChangeTime = (state: TState) =>
-  state.settingFormData.settingsForm.sendingTime;
+export const getAccuracy = (state: TState) =>
+  state.settingFormData.settingsForm.accuracy;
 
 export const getGetDeviceId = (state: TState) => state.settingFormData.deviceID;
 

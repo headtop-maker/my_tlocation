@@ -15,6 +15,7 @@ import {useDispatch} from 'react-redux';
 import {rnDataType} from '../../common/components/types';
 import {IRouteParamList} from '../../navigation/types';
 import {setRemoteDeviceIdAction} from '../../store/settings/action';
+import {BarCodeReadEvent} from "react-native-camera";
 
 const {ToastKotlin} = NativeModules;
 
@@ -26,12 +27,11 @@ const QrCodeScannerScreen = ({navigation}: IProps) => {
   const dispatch = useDispatch();
   const scanner = useRef<any>();
 
-  const onSuccess = e => {
+  const onSuccess = (e:BarCodeReadEvent )=> {
     try {
       ToastKotlin.getFromDataBaseOnce(e.data, (data: rnDataType) => {
         if (
-          (!data.latitude && !data.longitude) ||
-          (data.latitude === 'null' && data.longitude === 'null')
+          (!data.latitude && !data.longitude)
         ) {
           Alert.alert('Предупреждение', 'Данных по этому устройству нет', [
             {text: 'OK', onPress: () => console.log('OK Pressed')},

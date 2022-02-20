@@ -10,7 +10,6 @@ import android.graphics.Color
 
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.google.firebase.database.DatabaseReference
@@ -51,8 +50,9 @@ class MyForegroundService : Service() {
             while (param) {
                 Log.d("FService", "Service Foreground run__ ${intent.getStringExtra("devId")}")
                 onFirebaseData(intent.getStringExtra("devId").toString(),
-                 intent.getStringExtra("deviceLatitude").toString(),
-                    intent.getStringExtra("deviceLongitude").toString()
+                 intent.getDoubleExtra("deviceLatitude",0.0000000),
+                    intent.getDoubleExtra("deviceLongitude",0.0000000),
+                        intent.getIntExtra("deviceAccuracy",5),
                 )
                     try {
                         Thread.sleep(2000)
@@ -86,15 +86,20 @@ class MyForegroundService : Service() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun onFirebaseData (devId:String,devLatitude: String,devLongitude: String){
+    fun onFirebaseData (devId:String, devLatitude: Double, devLongitude: Double, devAccuracy: Int){
         initializeDbRef()
         database.child(devId).get().addOnSuccessListener {
             if (it.exists()){
-                var latitude = it.child("latitude").value.toString()
-                var longitude= it.child("longitude").value.toString()
-                Log.i("firebase", "Got value $latitude , $longitude")
+                var latitude = it.child("latitude").value
+                var longitude= it.child("longitude").value
+                var shortDevLatitude = ("%.${devAccuracy}f".format(devLatitude));
+                var shortDevLongitude = ("%.${devAccuracy}f".format(devLongitude));
+                var shortLatitude = ("%.${devAccuracy}f".format(latitude));
+                var shortLongitude = ("%.${devAccuracy}f".format(longitude));
 
-                if(latitude != devLatitude ||longitude != devLongitude){
+                Log.i("firebase", "Got value $latitude , $longitude,$shortDevLatitude,$shortDevLongitude , $devAccuracy ")
+
+                if(shortLatitude != shortDevLatitude ||shortLongitude != shortDevLongitude){
                     showCurrentInfo("Позиция изменилась","текущее положение $latitude , $longitude")
                 }
 

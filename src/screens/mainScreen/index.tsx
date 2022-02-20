@@ -1,14 +1,16 @@
 import {NavigationProp} from '@react-navigation/native';
 import React, {useEffect} from 'react';
 
+
 import {
-  Button,
+  Button, ImageBackground,
   Keyboard,
   SafeAreaView,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
 } from 'react-native';
+import CustomButton from '../../common/components/Buttons/CustomButton';
 import SCREENS from '../../constants/screen';
 import {IRouteParamList} from '../../navigation/types';
 
@@ -17,16 +19,23 @@ interface IProps {
 }
 
 const MainScreen = ({navigation}: IProps) => {
-  return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView style={styles.container}>
-        <Text>Main Container</Text>
 
-        <Button
-          title="Navigate TabScreen"
-          onPress={() => navigation.navigate(SCREENS.TabScreen)}
-        />
+  return (
+
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <ImageBackground source= {require('../../common/images/travel.jpg')} resizeMode="cover" style={styles.image}>
+      <SafeAreaView style={styles.container}>
+
+        <Text>Main Container</Text>
+    
+      <CustomButton
+        title={'Войти '}
+        onPress={() => navigation.navigate(SCREENS.TabScreen)}
+
+      />
+
       </SafeAreaView>
+      </ImageBackground>
     </TouchableWithoutFeedback>
   );
 };
@@ -36,6 +45,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  image: {
+    flex: 1,
+    justifyContent: "center"
   },
   input: {
     height: 40,

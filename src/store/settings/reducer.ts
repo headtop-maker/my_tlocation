@@ -7,17 +7,17 @@ const initialState: ISettings = {
   deviceID: '',
   showInputModal: false,
   settingsForm: {
-    sendingTime: 1500,
+    accuracy: 7,
   },
 };
 
 const settingsFormReducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
-    case ActionType.changeTime:
+    case ActionType.setAccuracy:
       return {
         ...state,
         settingsForm: {
-          sendingTime: action.payload,
+          accuracy: action.payload,
         },
       };
 

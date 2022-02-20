@@ -35,9 +35,9 @@ const ModalWrapper: FC<IModalWrapperProps> = ({isShow}) => {
 
   const handleCode = () => {
     ToastKotlin.getFromDataBaseOnce(devId, (data: rnDataType) => {
+      console.log(data);
       if (
-        (!data.latitude && !data.longitude) ||
-        (data.latitude === 'null' && data.longitude === 'null')
+        (!data.latitude && !data.longitude)
       ) {
         Alert.alert('Предупреждение', 'Данных по этому устройству нет', [
           {text: 'OK', onPress: () => console.log('OK Pressed')},

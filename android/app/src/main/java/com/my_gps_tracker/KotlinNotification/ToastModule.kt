@@ -59,6 +59,7 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
     fun getFromDataBaseOnce(remoteDevId:String,successCallback: Callback){
         val resultData: WritableMap = WritableNativeMap()
 
+
         initializeDbRef()
 
         database.child(remoteDevId).get().addOnSuccessListener {
@@ -67,9 +68,19 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
 
             val batteryDev = it.child("battery").value
             val dateDev = it.child("date").value
+            Log.i("firebase", "Got value $latitude")
 
-            resultData.putString("latitude", "$latitude")
-            resultData.putString("longitude", "$longitude")
+            if(latitude !== null && longitude !== null){
+                resultData.putDouble("latitude", latitude as Double)
+                resultData.putDouble("longitude", longitude as Double)
+            }else{
+                resultData.putNull("latitude")
+                resultData.putNull("longitude")
+            }
+
+
+
+
 
             resultData.putString("battery", "$batteryDev")
             resultData.putString("date", "$dateDev")
@@ -92,14 +103,15 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
     }
 
     @ReactMethod
-    fun startForeGroundService(deviceID:String,deviceLatitude:String,deviceLongitude:String){
+    fun startForeGroundService(deviceID:String,deviceLatitude:Double,deviceLongitude:Double,devAccuracy:Int){
         val intent = Intent(getReactApplicationContext(), MyForegroundService::class.java)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             intent.action = "START"
             intent.putExtra("devId",deviceID)
-            intent.putExtra("deviceLatitude",deviceLatitude)
-            intent.putExtra("deviceLongitude",deviceLongitude)
+            intent.putExtra("deviceLatitude",deviceLatitude.toString())
+            intent.putExtra("deviceLongitude",deviceLongitude.toString())
+            intent.putExtra("deviceAccuracy",devAccuracy)
             getReactApplicationContext()?.startForegroundService(intent)
         };
     }
@@ -138,12 +150,12 @@ class ToastModules(reactContext:ReactApplicationContext):ReactContextBaseJavaMod
         val manager = reactApplicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
         for (service in manager!!.getRunningServices(Int.MAX_VALUE)) {
             if ("com.my_gps_tracker.${serviceName}" == service.service.className) {
-                Toast.makeText(reactApplicationContext,"service running",Toast.LENGTH_SHORT).show()
+                Toast.makeText(reactApplicationContext,"Сервис запущен",Toast.LENGTH_SHORT).show()
                 successCallback(true)
                 return true
             }
         }
-       Toast.makeText(reactApplicationContext,"service stopping",Toast.LENGTH_SHORT).show()
+       Toast.makeText(reactApplicationContext,"Сервис остановлен",Toast.LENGTH_SHORT).show()
         successCallback(false)
         return false
     }

@@ -1,12 +1,10 @@
 import * as React from 'react';
 
 import {
-  Button,
   SafeAreaView,
   StyleSheet,
-  Text,
   View,
-  Image,
+  Image, ImageBackground, TouchableWithoutFeedback,
 } from 'react-native';
 import Gmaps from '../../../common/components/Gmaps';
 import Observation from '../../../common/components/NativeComponents/Observation';
@@ -28,15 +26,16 @@ import ModalWrapper from '../../../common/components/ModalWrapper';
 import {rnDataType} from '../../../common/components/types';
 import {setShowInputModalAction} from '../../../store/settings/action';
 
+
 interface IProps {
   navigation: NavigationProp<IRouteParamList>;
 }
 
 const TabMapScreen = ({navigation}: IProps) => {
   const [getData, setGetData] = useState(false);
-  const [rNdata, setRnData] = useState<rnDataType>({
-    latitude: '',
-    longitude: '',
+  const [RNdata, setRnData] = useState<rnDataType>({
+    latitude: 0,
+    longitude: 0,
     battery: '',
     date: '',
   });
@@ -45,7 +44,9 @@ const TabMapScreen = ({navigation}: IProps) => {
   const dispatch = useDispatch();
 
   return (
+      <ImageBackground source= {require('../../../common/images/travel.jpg')} resizeMode="cover" style={styles.image} blurRadius={4}>
     <SafeAreaView style={styles.container}>
+
       {!remoteDeviceId ? (
         <View style={styles.qrButton}>
           
@@ -78,26 +79,28 @@ const TabMapScreen = ({navigation}: IProps) => {
       ) : (
         <>
           <View style={styles.mapItem}>
-            {rNdata.latitude && rNdata.longitude ? (
-              <Gmaps latitude={rNdata.latitude} longitude={rNdata.longitude} />
+            {RNdata.latitude && RNdata.longitude ? (
+              <Gmaps latitude={RNdata.latitude} longitude={RNdata.longitude} />
             ) : null}
           </View>
           {getData && (
             <CurrentLocationInfo
-              latitude={rNdata.latitude}
-              longitude={rNdata.longitude}
-              date={rNdata.date}
-              battery={rNdata.battery}
+              latitude={RNdata.latitude}
+              longitude={RNdata.longitude}
+              date={RNdata.date}
+              battery={RNdata.battery}
             />
           )}
           <View style={styles.controlItems}>
             <GetFromDataBase setRnData={setRnData} setGetData={setGetData} />
-            <Observation dataForTrack={rNdata} disabled={getData} />
+            <Observation dataForTrack={RNdata} disabled={getData} />
             <DeleteCurrentDevice getData={getData} />
           </View>
         </>
       )}
+
     </SafeAreaView>
+</ImageBackground>
   );
 };
 
@@ -120,6 +123,11 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    
+  },
+  image: {
+    flex: 1,
+    justifyContent: "center"
   },
   mapItem: {
     width: '97%',
@@ -129,6 +137,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 5,
     borderColor: '#d0d0d01c',
+    backgroundColor:'#FFFFFF',
     elevation: 4,
   },
   qrButton: {

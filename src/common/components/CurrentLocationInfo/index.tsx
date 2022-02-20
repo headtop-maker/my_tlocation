@@ -1,12 +1,8 @@
 import React, {FC} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
+import {rnDataType} from "../types";
 
-interface ICurrentLocationInfoProps {
-  latitude: string;
-  longitude: string;
-  date: string;
-  battery: string;
-}
+interface ICurrentLocationInfoProps extends rnDataType{}
 
 const CurrentLocationInfo: FC<ICurrentLocationInfoProps> = ({
   latitude,

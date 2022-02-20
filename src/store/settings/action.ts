@@ -1,14 +1,14 @@
 export enum ActionType {
-  changeTime = 'CHANGE_TIME',
+  setAccuracy = 'SET_ACCURACY',
   setDeviceId = 'SET_DEVICE_ID',
   setRemoteDeviceId = 'SET_REMOTE_DEVICE_ID',
   setShowInputModal = 'SET_SHOW_INPUT_MODAL',
 }
 
-export const changeTimeAction = (sendingTime: number) => {
+export const setAccuracy = (accuracy: number) => {
   return {
-    type: ActionType.changeTime,
-    payload: sendingTime,
+    type: ActionType.setAccuracy,
+    payload: accuracy,
   };
 };
 

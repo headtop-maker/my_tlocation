@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
   NativeModules,
+  ImageBackground,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import {useSelector} from 'react-redux';
@@ -29,26 +30,31 @@ const TabServiceLocationScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-       <View style={{flex:0.5, height:'50%', flexDirection:'column',justifyContent:'space-evenly',alignItems:'center'}}>
-         
-      <Text>Идентификатор устройства</Text>
+    <ImageBackground
+      source={require('../../../common/images/travel.jpg')}
+      resizeMode="cover"
+      style={styles.image}
+      blurRadius={9}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.infoDev}>
+          <Text>Идентификатор устройства</Text>
 
-      {deviceId ? (
-        <View style={styles.qrData}>
-          <Text>{deviceId}</Text>
-          <TouchableOpacity onPress={copyToClipboard}>
-            <Text style={styles.text}>Скопировать ID</Text>
-          </TouchableOpacity>
-          <QRCode value={deviceId} size={200} />
+          {deviceId ? (
+            <View style={styles.qrData}>
+              <Text>{deviceId}</Text>
+              <TouchableOpacity onPress={copyToClipboard}>
+                <Text style={styles.text}>Скопировать ID</Text>
+              </TouchableOpacity>
+              <QRCode value={deviceId} size={200} />
+            </View>
+          ) : null}
+
+          <View style={styles.body}>
+            <Location />
+          </View>
         </View>
-      ) : null}
-
-      <View style={styles.body}>
-        <Location />
-      </View>
-</View> 
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 
@@ -61,8 +67,23 @@ const styles = StyleSheet.create({
   body: {
     alignItems: 'center',
   },
+  infoDev: {
+    flex: 0.5,
+    height: '50%',
+    width: '60%',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    elevation: 4,
+  },
   qrData: {
     alignItems: 'center',
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'center',
   },
   text: {
     fontSize: 16,
